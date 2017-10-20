@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus
+After=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/default/prometheus
+User={{ prometheus_user }}
+Group={{ prometheus_group }}
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart={{ prometheus_bin_dir }}/current/prometheus {% for k, v in (prometheus_default_flags | combine(prometheus_service_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

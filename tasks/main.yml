@@ -1,0 +1,9 @@
+---
+- assert:
+    that: ansible_service_mgr == 'systemd'
+
+- include: prometheus.yml
+  when: prometheus_installed | bool
+
+- include: alertmanager.yml
+  when: alertmanager_installed | bool

@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+
+  roles:
+    - role: prometheus
+      prometheus_installed: yes
+      alertmanager_installed: yes
+
+  vars:
+    alertmanager_root_route:
+      receiver: ops-team-pager
+    alertmanager_receivers:
+      - name: ops-team-pager
+        pagerduty_configs:
+          - service_key: myPagerDutyKey

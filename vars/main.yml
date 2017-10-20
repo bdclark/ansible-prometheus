@@ -1,0 +1,31 @@
+---
+prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
+
+prometheus_default_flags:
+  config.file: "{{ prometheus_config_dir}}/prometheus.yml"
+  storage.local.path: "{{ prometheus_data_dir }}"
+  storage.local.target-heap-size: "{{ ansible_memory_mb.real.total * 1024 * 1024 * 0.67 | round | int }}"
+
+prometheus_default_global_config:
+  scrape_interval: 1m
+  scrape_timeout: 10s
+  evaluation_interval: 1m
+
+prometheus_config:
+  global: "{{ prometheus_default_global_config | combine(prometheus_global_config, recursive=True) }}"
+  rule_files: "{{ prometheus_rule_file_paths }}"
+  scrape_configs: "{{ prometheus_scrape_configs }}"
+  alerting: "{{ prometheus_alerting_config }}"
+  remote_write: "{{ prometheus_remote_write_config }}"
+  remote_read: "{{ prometheus_remote_read_config }}"
+
+alertmanager_default_flags:
+  config.file: "{{ alertmanager_config_dir}}/alertmanager.yml"
+  storage.path: "{{ alertmanager_data_dir }}"
+
+alertmanager_config:
+  global: "{{ alertmanager_global_config }}"
+  templates: "{{ alertmanager_templates }}"
+  route: "{{ alertmanager_root_route | combine({'routes': alertmanager_child_routes}, recursive=True) }}"
+  receivers: "{{ alertmanager_receivers }}"
+  inhibit_rules: "{{ alertmanager_inhibit_rules }}"

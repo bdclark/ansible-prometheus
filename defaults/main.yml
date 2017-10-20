@@ -1,0 +1,61 @@
+---
+#
+# PROMETHEUS
+#
+prometheus_installed: yes
+prometheus_version: 1.8.0
+prometheus_checksum: 5028defde39c4b9975b6174a2dbf29983cbae9f18e9d8313d9187d4b1078da27
+prometheus_release_name: "prometheus-{{ prometheus_version }}.linux-amd64"
+prometheus_url: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_release_name }}.tar.gz
+
+prometheus_manage_user: yes
+prometheus_user: prometheus
+prometheus_group: prometheus
+
+prometheus_bin_dir: /opt/prometheus
+prometheus_config_dir: /etc/prometheus
+prometheus_rule_dir: "{{ prometheus_config_dir }}/rules"
+prometheus_data_dir: /var/lib/prometheus
+
+prometheus_service_enabled: yes
+prometheus_service_flags: {}
+
+prometheus_global_config: {}
+prometheus_rule_files: []
+prometheus_scrape_configs: ~
+prometheus_alerting_config: ~
+prometheus_remote_write_config: ~
+prometheus_remote_read_config: ~
+
+prometheus_config_src: prometheus.yml.j2
+prometheus_rule_src_dir: "{{ playbook_dir }}/files/rules"
+
+
+#
+# ALERTMANAGER
+#
+alertmanager_installed: no
+alertmanager_version: 0.9.1
+alertmanager_checksum: 407e0311689207b385fb1252f36d3c3119ae9a315e3eba205aaa69d576434ed7
+alertmanager_release_name: "alertmanager-{{ alertmanager_version }}.linux-amd64"
+alertmanager_url: https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/{{ alertmanager_release_name }}.tar.gz
+
+alertmanager_bin_dir: /opt/alertmanager
+alertmanager_config_dir: /etc/alertmanager
+alertmanager_data_dir: /var/lib/alertmanager
+
+alertmanager_manage_user: yes
+alertmanager_user: alertmanager
+alertmanager_group: alertmanager
+
+alertmanager_service_enabled: yes
+alertmanager_service_flags: {}
+
+alertmanager_global_config: {}
+alertmanager_templates: ~
+alertmanager_root_route: {}
+alertmanager_child_routes: []
+alertmanager_receivers: []
+alertmanager_inhibit_rules: ~
+
+alertmanager_config_src: alertmanager.yml.j2

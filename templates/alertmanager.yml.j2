@@ -1,0 +1,3 @@
+# Managed by Ansible.  Local changes will be overwritten.
+
+{{ alertmanager_config | to_json | from_json | to_nice_yaml(indent=2) }}
