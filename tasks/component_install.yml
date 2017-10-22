@@ -1,0 +1,46 @@
+---
+- name: create {{ prometheus_component_name }} install directory
+  file:
+    path: "{{ prometheus_component_install_dir }}/dist"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: set {{ prometheus_component_name }} install facts
+  set_fact:
+    prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"
+
+- name: download {{ prometheus_component_name }} tarball
+  get_url:
+    url: https://github.com/prometheus/{{ prometheus_component_name }}/releases/download/v{{ prometheus_component_version }}/{{ prometheus_component_release_name }}.tar.gz
+    checksum: "{{ 'sha256:' + prometheus_component_checksum if prometheus_component_checksum else omit }}"
+    dest: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}.tar.gz"
+
+- name: extract {{ prometheus_component_name }} tarball
+  unarchive:
+    remote_src: yes
+    src: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}.tar.gz"
+    dest: "{{ prometheus_component_install_dir }}/dist"
+    creates: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}/{{ prometheus_component_name }}"
+    owner: root
+    group: root
+
+- name: symlink {{ prometheus_component_name }} to current release
+  file:
+    src: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}"
+    path: "{{ prometheus_component_install_dir }}/current"
+    state: link
+  notify:
+    - restart {{ prometheus_component_name }}
+
+- name: create {{ prometheus_component_service_name }} systemd unit
+  template:
+    src: component.service.j2
+    dest: /etc/systemd/system/{{ prometheus_component_service_name }}.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart {{ prometheus_component_service_name }}

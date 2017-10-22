@@ -1,21 +1,5 @@
 ---
-- name: create prometheus system group
-  group:
-    name: "{{ prometheus_group }}"
-    system: yes
-    state: present
-  when: prometheus_manage_user
-
-- name: create prometheus system user
-  user:
-    name: "{{ prometheus_user }}"
-    system: yes
-    shell: "/sbin/nologin"
-    group: "{{ prometheus_group }}"
-    createhome: no
-  when: prometheus_manage_user
-
-- name: create directories
+- name: create config directories
   file:
     path: "{{ item }}"
     state: directory
@@ -23,10 +7,8 @@
     group: root
     mode: 0755
   with_items:
-    - "{{ prometheus_bin_dir }}/dist"
     - "{{ prometheus_config_dir }}"
     - "{{ prometheus_rule_dir }}"
-    - "{{ prometheus_config_dir }}/conf.d"
 
 - name: create data directory
   file:
@@ -35,28 +17,13 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
 
-- name: download tarball
-  get_url:
-    url: "{{ prometheus_url }}"
-    checksum: sha256:{{ prometheus_checksum }}
-    dest: "{{ prometheus_bin_dir }}/dist/{{ prometheus_url | basename }}"
-
-- name: extract tarball
-  unarchive:
-    remote_src: yes
-    src: "{{ prometheus_bin_dir }}/dist/{{ prometheus_url | basename }}"
-    dest: "{{ prometheus_bin_dir }}/dist"
-    creates: "{{ prometheus_bin_dir }}/dist/{{ prometheus_release_name }}/prometheus"
-    owner: root
-    group: root
-
-- name: symlink to the current release
-  file:
-    src: "{{ prometheus_bin_dir }}/dist/{{ prometheus_release_name }}"
-    path: "{{ prometheus_bin_dir }}/current"
-    state: link
-  notify:
-    - restart prometheus
+- include: component_install.yml
+  prometheus_component_name: prometheus
+  prometheus_component_service_name: prometheus
+  prometheus_component_version: "{{ prometheus_version }}"
+  prometheus_component_checksum: "{{ prometheus_checksum }}"
+  prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
+  prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
 
 - name: get list of current rule files
   find:
@@ -85,23 +52,13 @@
 - name: write prometheus config file
   template:
     src: "{{ prometheus_config_src }}"
-    dest: "{{ prometheus_config_dir}}/prometheus.yml"
+    dest: "{{ prometheus_config_dir }}/prometheus.yml"
     owner: root
     group: root
     mode: 0644
     validate: "{{ prometheus_bin_dir }}/current/promtool check-config %s"
   notify:
     - reload prometheus
-
-- name: create systemd unit
-  template:
-    src: prometheus.service.j2
-    dest: /etc/systemd/system/prometheus.service
-    owner: root
-    group: root
-  notify:
-    - reload systemd
-    - restart prometheus
 
 - name: manage prometheus service
   service:

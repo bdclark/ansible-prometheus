@@ -7,6 +7,7 @@ end
 
 describe port('9090') do
   it { should be_listening }
+  its('processes') { should include 'prometheus' }
 end
 
 %w(/etc/prometheus /etc/prometheus/rules /opt/prometheus/dist).each do |d|

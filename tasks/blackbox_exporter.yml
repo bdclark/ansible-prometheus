@@ -1,0 +1,25 @@
+---
+- include: component_install.yml
+  prometheus_component_name: blackbox_exporter
+  prometheus_component_service_name: blackbox_exporter
+  prometheus_component_version: "{{ blackbox_exporter_version }}"
+  prometheus_component_install_dir: "{{ blackbox_exporter_bin_dir }}"
+  prometheus_component_checksum: "{{ blackbox_exporter_checksum }}"
+  prometheus_component_service_args: "{% for k, v in (blackbox_exporter_default_flags | combine(blackbox_exporter_flags)).iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+  prometheus_component_service_capabilities: CAP_NET_RAW
+
+- name: write blackbox_exporter config file
+  template:
+    src: blackbox_exporter.yml.j2
+    dest: "{{ blackbox_exporter_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart blackbox_exporter
+
+- name: manage blackbox_exporter service
+  service:
+    name: blackbox_exporter
+    state: "{{ blackbox_exporter_service_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ blackbox_exporter_service_enabled }}"

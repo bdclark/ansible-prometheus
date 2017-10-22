@@ -1,61 +1,146 @@
 ---
-#
-# PROMETHEUS
-#
-prometheus_installed: yes
-prometheus_version: 1.8.0
-prometheus_checksum: 5028defde39c4b9975b6174a2dbf29983cbae9f18e9d8313d9187d4b1078da27
-prometheus_release_name: "prometheus-{{ prometheus_version }}.linux-amd64"
-prometheus_url: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_release_name }}.tar.gz
+#############################
+# COMMON
+#############################
+# which components to install
+prometheus_components: []
+  # - prometheus
+  # - alertmanager
+  # - node_exporter
+  # - blackbox_exporter
+  # - consul_exporter
 
+# whether to create prometheus user/group
 prometheus_manage_user: yes
 prometheus_user: prometheus
 prometheus_group: prometheus
 
+# default directories for exporters
+prometheus_exporters_bin_dir: /opt/prometheus/exporters
+prometheus_exporters_config_dir: /etc/prometheus/exporters
+
+#############################
+# PROMETHEUS
+#############################
+# version to install
+prometheus_version: 1.8.0
+# checksum is optional
+prometheus_checksum: 5028defde39c4b9975b6174a2dbf29983cbae9f18e9d8313d9187d4b1078da27
+# whether service is enabled and started
+prometheus_service_enabled: yes
+# additional command-line flags
+prometheus_flags: {}
+# installation directory
 prometheus_bin_dir: /opt/prometheus
+# configuration directory (for prometheus.yml)
 prometheus_config_dir: /etc/prometheus
+# directory to copy rules into
 prometheus_rule_dir: "{{ prometheus_config_dir }}/rules"
+# prometheus data directory
 prometheus_data_dir: /var/lib/prometheus
 
-prometheus_service_enabled: yes
-prometheus_service_flags: {}
-
+# prometheus config file sections
+## global config
 prometheus_global_config: {}
+## rule_files config - typically leave managed by ansible
 prometheus_rule_files: []
-prometheus_scrape_configs: ~
+## scrape_configs (list of jobs)
+prometheus_scrape_configs: []
+## alerting, remote_write, remote_read configs
 prometheus_alerting_config: ~
 prometheus_remote_write_config: ~
 prometheus_remote_read_config: ~
 
-prometheus_config_src: prometheus.yml.j2
+# source directory containing rule_files
 prometheus_rule_src_dir: "{{ playbook_dir }}/files/rules"
+# custom template source for prometheus.yml
+prometheus_config_src: prometheus.yml.j2
 
 
-#
+#############################
 # ALERTMANAGER
-#
-alertmanager_installed: no
+#############################
+# version to install
 alertmanager_version: 0.9.1
+# checksum is optional
 alertmanager_checksum: 407e0311689207b385fb1252f36d3c3119ae9a315e3eba205aaa69d576434ed7
-alertmanager_release_name: "alertmanager-{{ alertmanager_version }}.linux-amd64"
-alertmanager_url: https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/{{ alertmanager_release_name }}.tar.gz
-
+# whether service is enabled and started
+alertmanager_service_enabled: yes
+# additional command-line flags
+alertmanager_flags: {}
+# installation directory
 alertmanager_bin_dir: /opt/alertmanager
+# configuration directory (for alertmanager.yml)
 alertmanager_config_dir: /etc/alertmanager
+# alertmanager data directory
 alertmanager_data_dir: /var/lib/alertmanager
 
-alertmanager_manage_user: yes
-alertmanager_user: alertmanager
-alertmanager_group: alertmanager
-
-alertmanager_service_enabled: yes
-alertmanager_service_flags: {}
-
+# alertmanager config file sections
+## global config
 alertmanager_global_config: {}
+## templates config
 alertmanager_templates: ~
+## root route (required)
 alertmanager_root_route: {}
+## list of child routes
 alertmanager_child_routes: []
+## receivers section (list of receivers)
 alertmanager_receivers: []
+## inhibit_rules section
 alertmanager_inhibit_rules: ~
 
+# custom template source for alertmanager.yml
 alertmanager_config_src: alertmanager.yml.j2
+
+
+#############################
+# NODE_EXPORTER
+#############################
+# version to install
+node_exporter_version: 0.15.0
+# checksum is optional
+node_exporter_checksum: 9413b3c94dbe9d4341ce85ea7e3f0e20abb8804135b8c236c4440c2c841551d7
+# installation directory
+node_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/node_exporter"
+# whether service is enabled and started
+node_exporter_service_enabled: yes
+# command-line flags
+node_exporter_flags: {}
+# list of collectors enabled (in addition to default)
+node_exporter_collectors_enabled: []
+# list of collectors disabled (in addition to default)
+node_exporter_collectors_disabled: []
+
+
+#############################
+# BLACKBOX_EXPORTER
+#############################
+# version to install
+blackbox_exporter_version: 0.10.0
+# checksum is optional
+blackbox_exporter_checksum: 2550e6b2bffec48e742cd47e3873742c51cf3a979dbe5ea2bf228e8c135aedf2
+# installation directory
+blackbox_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/blackbox_exporter"
+# configuration file path
+blackbox_exporter_config_file: "{{ prometheus_exporters_config_dir }}/blackbox_exporter.yml"
+# whether service is enabled and started
+blackbox_exporter_service_enabled: yes
+# additional command-line flags
+blackbox_exporter_flags: {}
+# exporter configuration
+blackbox_exporter_config: {}
+
+
+#############################
+# CONSUL_EXPORTER
+#############################
+# version to install
+consul_exporter_version: 0.3.0
+# checksum is optional
+consul_exporter_checksum: a7ee604d6c16fd096fff2f8f8d07da3a66c79b04b9135b8c71f0b9c79098e1ec
+# installation directory
+consul_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/consul_exporter"
+# whether service is enabled and started
+consul_exporter_service_enabled: yes
+# command-line flags
+consul_exporter_flags: {}

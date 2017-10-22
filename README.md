@@ -1,6 +1,11 @@
-# prometheus
+# Prometheus Ansible Role
 
-Installs/configures Prometheus
+Installs/configures Prometheus and friends:
+- prometheus
+- alertmanager
+- node_exporter
+- blackbox_exporter
+- consul_exporter
 
 Requirements
 ------------

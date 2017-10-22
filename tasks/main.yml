@@ -1,9 +1,38 @@
 ---
 - assert:
     that: ansible_service_mgr == 'systemd'
+    msg: This role only supports systemd
 
-- include: prometheus.yml
-  when: prometheus_installed | bool
+- assert:
+    that: prometheus_components | difference(prometheus_components_available) | length == 0
+    msg: "Valid prometheus_components are: {{ prometheus_components_available }}"
 
-- include: alertmanager.yml
-  when: alertmanager_installed | bool
+- block:
+    - name: create prometheus system group
+      group:
+        name: "{{ prometheus_group }}"
+        system: yes
+        state: present
+
+    - name: create prometheus system user
+      user:
+        name: "{{ prometheus_user }}"
+        system: yes
+        shell: "/sbin/nologin"
+        group: "{{ prometheus_group }}"
+        createhome: no
+  when: prometheus_manage_user and prometheus_components | length > 0
+
+- name: create exporters config directory
+  file:
+    path: "{{ prometheus_exporters_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: '"node_exporter" in prometheus_components or "consul_exporter" in prometheus_components or "blackbox_exporter" in prometheus_components'
+
+- include: "{{ component_item }}.yml"
+  with_items: "{{ prometheus_components }}"
+  loop_control:
+    loop_var: component_item

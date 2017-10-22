@@ -1,21 +1,5 @@
 ---
-- name: create alertmanager system group
-  group:
-    name: "{{ alertmanager_group }}"
-    system: yes
-    state: present
-  when: alertmanager_manage_user
-
-- name: create alertmanager system user
-  user:
-    name: "{{ alertmanager_user }}"
-    system: yes
-    shell: "/sbin/nologin"
-    group: "{{ alertmanager_group }}"
-    createhome: no
-  when: alertmanager_manage_user
-
-- name: create directories
+- name: create alertmanager config directory
   file:
     path: "{{ item }}"
     state: directory
@@ -23,38 +7,22 @@
     group: root
     mode: 0755
   with_items:
-    - "{{ alertmanager_bin_dir }}/dist"
     - "{{ alertmanager_config_dir }}"
 
-- name: create data directory
+- name: create alertmanager data directory
   file:
     path: "{{ alertmanager_data_dir }}"
     state: directory
-    owner: "{{ alertmanager_user }}"
-    group: "{{ alertmanager_group }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
 
-- name: download tarball
-  get_url:
-    url: "{{ alertmanager_url }}"
-    checksum: sha256:{{ alertmanager_checksum }}
-    dest: "{{ alertmanager_bin_dir }}/dist/{{ alertmanager_url | basename }}"
-
-- name: extract tarball
-  unarchive:
-    remote_src: yes
-    src: "{{ alertmanager_bin_dir }}/dist/{{ alertmanager_url | basename }}"
-    dest: "{{ alertmanager_bin_dir }}/dist"
-    creates: "{{ alertmanager_bin_dir }}/dist/{{ alertmanager_release_name }}/alertmanager"
-    owner: root
-    group: root
-
-- name: symlink to the current release
-  file:
-    src: "{{ alertmanager_bin_dir }}/dist/{{ alertmanager_release_name }}"
-    path: "{{ alertmanager_bin_dir }}/current"
-    state: link
-  notify:
-    - restart alertmanager
+- include: component_install.yml
+  prometheus_component_name: alertmanager
+  prometheus_component_service_name: alertmanager
+  prometheus_component_version: "{{ alertmanager_version }}"
+  prometheus_component_checksum: "{{ alertmanager_checksum }}"
+  prometheus_component_install_dir: "{{ alertmanager_bin_dir }}"
+  prometheus_component_service_args: "{% for k, v in (alertmanager_default_flags | combine(alertmanager_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
 
 - name: write alertmanager config file
   template:
@@ -67,18 +35,8 @@
   notify:
     - reload alertmanager
 
-- name: create systemd unit
-  template:
-    src: alertmanager.service.j2
-    dest: /etc/systemd/system/alertmanager.service
-    owner: root
-    group: root
-  notify:
-    - reload systemd
-    - restart alertmanager
-
 - name: manage alertmanager service
   service:
     name: alertmanager
     state: "{{ alertmanager_service_enabled | ternary('started', 'stopped') }}"
-    enabled: "{{ prometheus_service_enabled }}"
+    enabled: "{{ alertmanager_service_enabled }}"

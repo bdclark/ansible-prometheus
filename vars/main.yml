@@ -1,4 +1,11 @@
 ---
+prometheus_components_available:
+  - prometheus
+  - alertmanager
+  - node_exporter
+  - blackbox_exporter
+  - consul_exporter
+
 prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
 
 prometheus_default_flags:
@@ -29,3 +36,6 @@ alertmanager_config:
   route: "{{ alertmanager_root_route | combine({'routes': alertmanager_child_routes}, recursive=True) }}"
   receivers: "{{ alertmanager_receivers }}"
   inhibit_rules: "{{ alertmanager_inhibit_rules }}"
+
+blackbox_exporter_default_flags:
+  config.file: "{{ blackbox_exporter_config_file }}"

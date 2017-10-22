@@ -25,3 +25,27 @@
     name: alertmanager
     state: reloaded
   when: alertmanager_service_enabled
+
+- name: restart node_exporter
+  service:
+    name: node_exporter
+    state: restarted
+  when: node_exporter_service_enabled
+
+- name: reload node_exporter
+  service:
+    name: node_exporter
+    state: reloaded
+  when: node_exporter_service_enabled
+
+- name: restart consul_exporter
+  service:
+    name: consul_exporter
+    state: restarted
+  when: consul_exporter_service_enabled
+
+- name: restart blackbox_exporter
+  service:
+    name: blackbox_exporter
+    state: restarted
+  when: blackbox_exporter_service_enabled

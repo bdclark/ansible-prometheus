@@ -4,13 +4,39 @@
 
   roles:
     - role: prometheus
-      prometheus_installed: yes
-      alertmanager_installed: yes
+      prometheus_components:
+        - prometheus
+        - alertmanager
+        - node_exporter
+        - blackbox_exporter
+        - consul_exporter
 
   vars:
+    # prometheus config
+    prometheus_global_config:
+      scrape_interval: 15s
+      external_labels:
+        monitor: 'codelab-monitor'
+    prometheus_scrape_configs:
+      - job_name: prometheus
+        scrape_interval: 5s
+        static_configs:
+          - targets: ['localhost:9090']
+
+    # alertmanager config
     alertmanager_root_route:
       receiver: ops-team-pager
     alertmanager_receivers:
       - name: ops-team-pager
         pagerduty_configs:
           - service_key: myPagerDutyKey
+
+    # node_exporter config
+    node_exporter_collectors_enabled:
+      - cpu
+      - vmstat
+    node_exporter_collectors_disabled:
+      - nfs
+      - ntp
+    node_exporter_flags:
+      collector.filesystem.ignored-fs-types: '^(sys|proc|auto)fs$'

@@ -7,6 +7,7 @@ end
 
 describe port('9093') do
   it { should be_listening }
+  its('processes') { should include 'alertmanager' }
 end
 
 %w(/etc/alertmanager /opt/alertmanager/dist).each do |d|
@@ -24,8 +25,8 @@ end
 
 describe file('/var/lib/alertmanager') do
   it { should be_directory }
-  it { should be_owned_by('alertmanager') }
-  it { should be_grouped_into('alertmanager') }
+  it { should be_owned_by('prometheus') }
+  it { should be_grouped_into('prometheus') }
   its('mode') { should cmp '0755' }
 end
 
