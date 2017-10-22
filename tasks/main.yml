@@ -1,7 +1,7 @@
 ---
 - assert:
-    that: ansible_service_mgr == 'systemd'
-    msg: This role only supports systemd
+    that: ansible_service_mgr in ['systemd', 'upstart']
+    msg: This role only supports systemd or upstart
 
 - assert:
     that: prometheus_components | difference(prometheus_components_available) | length == 0

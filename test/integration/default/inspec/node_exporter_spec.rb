@@ -21,10 +21,14 @@ describe file('/opt/prometheus/exporters/node_exporter/current') do
   it { should be_symlink }
 end
 
-describe file('/etc/systemd/system/node_exporter.service') do
-  its('content') { should contain(' --collector.cpu') }
-  its('content') { should contain(' --collector.vmstat') }
-  its('content') { should contain(' --no-collector.nfs') }
-  its('content') { should contain(' --no-collector.ntp') }
-  its('content') { should contain(' --collector.filesystem.ignored-fs-types="^(sys|proc|auto)fs$"') }
+[
+  'collector.cpu',
+  'collector.vmstat',
+  'no-collector.nfs',
+  'no-collector.ntp',
+  'collector.filesystem.ignored-fs-types='
+].each do |matcher|
+  describe command(%(ps aux | grep -E 'node_exporter.* --#{matcher}')) do
+    its('exit_status') { should eq 0 }
+  end
 end

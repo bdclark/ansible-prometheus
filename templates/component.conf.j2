@@ -1,0 +1,10 @@
+description "{{ prometheus_component_service_name }}"
+
+start on (filesystem and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+setuid {{ prometheus_user }}
+setgid {{ prometheus_group }}
+exec {{ prometheus_component_install_dir }}/current/{{ prometheus_component_name }} {{ prometheus_component_service_args }}
