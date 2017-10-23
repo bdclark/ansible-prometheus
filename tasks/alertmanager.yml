@@ -8,6 +8,7 @@
     mode: 0755
   with_items:
     - "{{ alertmanager_config_dir }}"
+    - "{{ alertmanager_template_dir }}"
 
 - name: create alertmanager data directory
   file:
@@ -23,6 +24,29 @@
   prometheus_component_checksum: "{{ alertmanager_checksum }}"
   prometheus_component_install_dir: "{{ alertmanager_bin_dir }}"
   prometheus_component_service_args: "{% for k, v in (alertmanager_default_flags | combine(alertmanager_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
+
+- name: get list of current alertmanager template files
+  find:
+    paths: "{{ alertmanager_template_dir }}"
+  register: _alertmanager_templates_found
+
+- name: remove unmanaged alertmanager template files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ _alertmanager_templates_found.files | map(attribute='path') | difference(alertmanager_template_file_paths) }}"
+  notify:
+    - reload prometheus
+
+- name: copy alertmanager template files from playbook directory
+  copy:
+    src: "{{ alertmanager_template_src_dir }}/{{ item }}"
+    dest: "{{ alertmanager_template_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ alertmanager_templates }}"
 
 - name: write alertmanager config file
   template:

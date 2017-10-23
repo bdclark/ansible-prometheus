@@ -30,6 +30,8 @@ prometheus_config:
   remote_write: "{{ prometheus_remote_write_config }}"
   remote_read: "{{ prometheus_remote_read_config }}"
 
+alertmanager_template_file_paths: "{{ alertmanager_templates | map('regex_replace', '^(.*)$', alertmanager_template_dir +'/\\1') | list }}"
+
 alertmanager_default_flags:
   config.file: "{{ alertmanager_config_dir}}/alertmanager.yml"
   storage.path: "{{ alertmanager_data_dir }}"

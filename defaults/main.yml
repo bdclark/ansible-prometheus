@@ -45,7 +45,7 @@ prometheus_data_dir: /var/lib/prometheus
 # prometheus config file sections
 ## global config
 prometheus_global_config: {}
-## rule_files config - typically leave managed by ansible
+## list of rule filenames to copy from `prometheus_rule_src_dir`
 prometheus_rule_files: []
 ## scrape_configs (list of jobs)
 prometheus_scrape_configs: []
@@ -75,14 +75,16 @@ alertmanager_flags: {}
 alertmanager_bin_dir: /opt/alertmanager
 # configuration directory (for alertmanager.yml)
 alertmanager_config_dir: /etc/alertmanager
+# templates directory
+alertmanager_template_dir: "{{ alertmanager_config_dir }}/templates"
 # alertmanager data directory
 alertmanager_data_dir: /var/lib/alertmanager
 
 # alertmanager config file sections
 ## global config
 alertmanager_global_config: {}
-## templates config
-alertmanager_templates: ~
+## list of template filenames to copy from ``
+alertmanager_templates: []
 ## root route (required)
 alertmanager_root_route: {}
 ## list of child routes
@@ -92,6 +94,8 @@ alertmanager_receivers: []
 ## inhibit_rules section
 alertmanager_inhibit_rules: ~
 
+# source directory containing template files
+alertmanager_template_src_dir: "{{ playbook_dir }}/files/templates"
 # custom template source for alertmanager.yml
 alertmanager_config_src: alertmanager.yml.j2
 

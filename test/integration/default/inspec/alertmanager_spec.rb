@@ -10,7 +10,7 @@ describe port('9093') do
   its('processes') { should include 'alertmanager' }
 end
 
-%w(/etc/alertmanager /opt/alertmanager/dist).each do |d|
+%w(/etc/alertmanager /etc/alertmanager/templates /opt/alertmanager/dist).each do |d|
   describe file(d) do
     it { should be_directory }
     it { should be_owned_by('root') }
@@ -35,4 +35,12 @@ describe file('/etc/alertmanager/alertmanager.yml') do
   it { should be_owned_by('root') }
   it { should be_grouped_into('root') }
   its('mode') { should cmp '0644' }
+end
+
+describe file('/etc/alertmanager/templates/myorg.tmpl') do
+  it { should be_file }
+  it { should be_owned_by('root') }
+  it { should be_grouped_into('root') }
+  its('mode') { should cmp '0644' }
+  its('content') { should contain 'slack.myorg.text' }
 end

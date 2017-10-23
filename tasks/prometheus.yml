@@ -1,5 +1,5 @@
 ---
-- name: create config directories
+- name: create prometheus config directories
   file:
     path: "{{ item }}"
     state: directory
@@ -10,7 +10,7 @@
     - "{{ prometheus_config_dir }}"
     - "{{ prometheus_rule_dir }}"
 
-- name: create data directory
+- name: create prometheus data directory
   file:
     path: "{{ prometheus_data_dir }}"
     state: directory
@@ -25,12 +25,12 @@
   prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
   prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
 
-- name: get list of current rule files
+- name: get list of current prometheus rule files
   find:
     paths: "{{ prometheus_rule_dir }}"
   register: _prometheus_rules_found
 
-- name: remove unmanaged rule files
+- name: remove unmanaged prometheus rule files
   file:
     path: "{{ item }}"
     state: absent
@@ -38,7 +38,7 @@
   notify:
     - reload prometheus
 
-- name: copy rule files from playbook directory
+- name: copy prometheus rule files from playbook directory
   copy:
     src: "{{ prometheus_rule_src_dir }}/{{ item }}"
     dest: "{{ prometheus_rule_dir }}/{{ item }}"

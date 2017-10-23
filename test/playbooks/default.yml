@@ -25,7 +25,11 @@
         scrape_interval: 5s
         static_configs:
           - targets: ['localhost:9090']
+    prometheus_rule_files:
+      - test.rules
     # alertmanager config
+    alertmanager_templates:
+      - myorg.tmpl
     alertmanager_root_route:
       receiver: ops-team-pager
     alertmanager_receivers:
