@@ -23,15 +23,6 @@
         createhome: no
   when: prometheus_manage_user and prometheus_components | length > 0
 
-- name: create exporters config directory
-  file:
-    path: "{{ prometheus_exporters_config_dir }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  when: '"node_exporter" in prometheus_components or "consul_exporter" in prometheus_components or "blackbox_exporter" in prometheus_components'
-
 - include: "{{ component_item }}.yml"
   with_items: "{{ prometheus_components }}"
   loop_control:

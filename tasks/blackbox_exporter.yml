@@ -8,6 +8,11 @@
   prometheus_component_service_args: "{% for k, v in (blackbox_exporter_default_flags | combine(blackbox_exporter_flags)).iteritems() %}--{{ k }} \"{{ v }}\" {% endfor %}"
   prometheus_component_service_capabilities: CAP_NET_RAW
 
+- name: create config directory
+  file:
+    path: "{{ blackbox_exporter_config_file | dirname }}"
+    state: directory
+
 - name: write blackbox_exporter config file
   template:
     src: blackbox_exporter.yml.j2

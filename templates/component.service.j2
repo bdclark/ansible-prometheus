@@ -8,9 +8,14 @@ EnvironmentFile=-/etc/default/{{ prometheus_component_service_name }}
 User={{ prometheus_user }}
 Group={{ prometheus_group }}
 ExecReload=/bin/kill -HUP $MAINPID
+{% for k, v in (prometheus_component_env_vars | default({})).iteritems() %}
+Environment={{ k }}={{ v }}
+{% endfor %}
 ExecStart={{ prometheus_component_install_dir }}/current/{{ prometheus_component_name }} {{ prometheus_component_service_args }}
 Restart=on-failure
-{% if prometheus_component_service_capabilities is defined and prometheus_component_service_capabilities %}CapabilityBoundingSet={{ prometheus_component_service_capabilities }}{% endif %}
+{% if prometheus_component_service_capabilities is defined and prometheus_component_service_capabilities %}
+CapabilityBoundingSet={{ prometheus_component_service_capabilities }}
+{% endif %}
 
 [Install]
 WantedBy=multi-user.target

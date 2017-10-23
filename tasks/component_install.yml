@@ -7,13 +7,13 @@
     group: root
     mode: 0755
 
-- name: set {{ prometheus_component_name }} install facts
-  set_fact:
-    prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"
+# - name: set {{ prometheus_component_name }} install facts
+#   set_fact:
+#     prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"
 
 - name: download {{ prometheus_component_name }} tarball
   get_url:
-    url: https://github.com/prometheus/{{ prometheus_component_name }}/releases/download/v{{ prometheus_component_version }}/{{ prometheus_component_release_name }}.tar.gz
+    url: "{{ prometheus_component_url | default(prometheus_component_default_url) }}"
     checksum: "{{ 'sha256:' + prometheus_component_checksum if prometheus_component_checksum else omit }}"
     dest: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}.tar.gz"
 

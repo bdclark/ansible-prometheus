@@ -10,7 +10,10 @@
         - node_exporter
         - blackbox_exporter
         - consul_exporter
-
+        - mysqld_exporter
+        - elasticsearch_exporter
+        - mongodb_exporter
+        - rabbitmq_exporter
   vars:
     # prometheus config
     prometheus_global_config:
@@ -22,7 +25,6 @@
         scrape_interval: 5s
         static_configs:
           - targets: ['localhost:9090']
-
     # alertmanager config
     alertmanager_root_route:
       receiver: ops-team-pager
@@ -30,7 +32,6 @@
       - name: ops-team-pager
         pagerduty_configs:
           - service_key: myPagerDutyKey
-
     # node_exporter config
     node_exporter_collectors_enabled:
       - cpu
@@ -40,3 +41,7 @@
       - ntp
     node_exporter_flags:
       collector.filesystem.ignored-fs-types: '^(sys|proc|auto)fs$'
+    # additional exporter configs
+    rabbitmq_exporter_env_vars:
+      PUBLISH_PORT: 9110
+    mysqld_exporter_data_source_name: root@localhost:3306/mysql

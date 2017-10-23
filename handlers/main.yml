@@ -49,3 +49,27 @@
     name: blackbox_exporter
     state: restarted
   when: blackbox_exporter_service_enabled
+
+- name: restart mysqld_exporter
+  service:
+    name: mysqld_exporter
+    state: restarted
+  when: mysqld_exporter_service_enabled
+
+- name: restart elasticsearch_exporter
+  service:
+    name: elasticsearch_exporter
+    state: restarted
+  when: elasticsearch_exporter_service_enabled
+
+- name: restart mongodb_exporter
+  service:
+    name: mongodb_exporter
+    state: restarted
+  when: mongodb_exporter_service_enabled
+
+- name: restart rabbitmq_exporter
+  service:
+    name: rabbitmq_exporter
+    state: restarted
+  when: rabbitmq_exporter_service_enabled

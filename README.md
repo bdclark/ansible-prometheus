@@ -1,12 +1,15 @@
 # Prometheus Ansible Role
 
-Installs/configures Prometheus and friends:
+Installs/configures Prometheus and some friends:
 - prometheus
 - alertmanager
 - node_exporter
 - blackbox_exporter
 - consul_exporter
-
+- mysqld_exporter
+- elasticsearch_exporter (third-party)
+- mongodb_exporter (third-party)
+- rabbitmq_exporter (third-party)
 
 Requirements
 ------------

@@ -7,4 +7,7 @@ respawn
 respawn limit 10 5
 setuid {{ prometheus_user }}
 setgid {{ prometheus_group }}
+{% for k, v in (prometheus_component_env_vars | default({})).iteritems() %}
+env {{ k }}={{ v }}
+{% endfor %}
 exec {{ prometheus_component_install_dir }}/current/{{ prometheus_component_name }} {{ prometheus_component_service_args }}

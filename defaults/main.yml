@@ -9,6 +9,9 @@ prometheus_components: []
   # - node_exporter
   # - blackbox_exporter
   # - consul_exporter
+  # - elasticsearch_exporter
+  # - mongodb_exporter
+  # - rabbitmq_exporter
 
 # whether to create prometheus user/group
 prometheus_manage_user: yes
@@ -144,3 +147,67 @@ consul_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/consul_exporter"
 consul_exporter_service_enabled: yes
 # command-line flags
 consul_exporter_flags: {}
+
+#############################
+# MYSQLD_EXPORTER
+#############################
+# version to install
+mysqld_exporter_version: 0.10.0
+# checksum is optional
+mysqld_exporter_checksum: 32797bc96aa00bb20e0b9165f6d3887fe9612b474061ee7de0189f5377b61859
+# installation directory
+mysqld_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mysqld_exporter"
+# whether service is enabled and started
+mysqld_exporter_service_enabled: yes
+# command-line flags
+mysqld_exporter_flags: {}
+# exporter data source name: https://github.com/prometheus/mysqld_exporter#setting-the-mysql-servers-data-source-name
+# mysqld_exporter_data_source_name: [username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
+
+#############################
+# ELASTICSEARCH_EXPORTER (THIRD-PARTY)
+#############################
+# version to install
+elasticsearch_exporter_version: 1.0.1
+# url to download tarball
+elasticsearch_exporter_url: https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v{{ elasticsearch_exporter_version }}/elasticsearch_exporter-{{ elasticsearch_exporter_version }}.linux-amd64.tar.gz
+# checksum is optional
+elasticsearch_exporter_checksum: ~
+# installation directory
+elasticsearch_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/elasticsearch_exporter"
+# whether service is enabled and started
+elasticsearch_exporter_service_enabled: yes
+# command-line flags
+elasticsearch_exporter_flags: {}
+
+#############################
+# MONGODB_EXPORTER (THIRD-PARTY)
+#############################
+# version to install
+mongodb_exporter_version: 0.3.1
+# url to download tarball
+mongodb_exporter_url: https://github.com/percona/mongodb_exporter/releases/download/v{{ mongodb_exporter_version }}/mongodb_exporter-{{ mongodb_exporter_version }}.linux-amd64.tar.gz
+# checksum is optional
+mongodb_exporter_checksum: ~
+# installation directory
+mongodb_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mongodb_exporter"
+# whether service is enabled and started
+mongodb_exporter_service_enabled: yes
+# command-line flags
+mongodb_exporter_flags: {}
+
+#############################
+# RABBITMQ_EXPORTER (THIRD-PARTY)
+#############################
+# version to install
+rabbitmq_exporter_version: 0.23.0
+# url to download tarball
+rabbitmq_exporter_url: https://github.com/kbudde/rabbitmq_exporter/releases/download/v0.23.0/rabbitmq_exporter-0.23.0.linux-amd64.tar.gz
+# checksum is optional
+rabbitmq_exporter_checksum: ~
+# installation directory
+rabbitmq_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/rabbitmq_exporter"
+# whether service is enabled and started
+rabbitmq_exporter_service_enabled: yes
+# environment variables passed to service
+rabbitmq_exporter_env_vars: {}

@@ -5,6 +5,10 @@ prometheus_components_available:
   - node_exporter
   - blackbox_exporter
   - consul_exporter
+  - mysqld_exporter
+  - elasticsearch_exporter
+  - mongodb_exporter
+  - rabbitmq_exporter
 
 prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
 
@@ -39,3 +43,7 @@ alertmanager_config:
 
 blackbox_exporter_default_flags:
   config.file: "{{ blackbox_exporter_config_file }}"
+
+# component install variables
+prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"
+prometheus_component_default_url: https://github.com/prometheus/{{ prometheus_component_name }}/releases/download/v{{ prometheus_component_version }}/{{ prometheus_component_release_name }}.tar.gz

@@ -1,0 +1,15 @@
+---
+- include: component_install.yml
+  prometheus_component_name: mongodb_exporter
+  prometheus_component_service_name: mongodb_exporter
+  prometheus_component_version: "{{ mongodb_exporter_version }}"
+  prometheus_component_url: "{{ mongodb_exporter_url }}"
+  prometheus_component_install_dir: "{{ mongodb_exporter_bin_dir }}"
+  prometheus_component_checksum: "{{ mongodb_exporter_checksum }}"
+  prometheus_component_service_args: "{% for k, v in mongodb_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+
+- name: manage mongodb_exporter service
+  service:
+    name: mongodb_exporter
+    state: "{{ mongodb_exporter_service_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ mongodb_exporter_service_enabled }}"

@@ -1,0 +1,16 @@
+---
+- include: component_install.yml
+  prometheus_component_name: rabbitmq_exporter
+  prometheus_component_service_name: rabbitmq_exporter
+  prometheus_component_version: "{{ rabbitmq_exporter_version }}"
+  prometheus_component_url: "{{ rabbitmq_exporter_url }}"
+  prometheus_component_install_dir: "{{ rabbitmq_exporter_bin_dir }}"
+  prometheus_component_checksum: "{{ rabbitmq_exporter_checksum }}"
+  prometheus_component_service_args: ""
+  prometheus_component_env_vars: "{{ rabbitmq_exporter_env_vars }}"
+
+- name: manage rabbitmq_exporter service
+  service:
+    name: rabbitmq_exporter
+    state: "{{ rabbitmq_exporter_service_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ rabbitmq_exporter_service_enabled }}"
