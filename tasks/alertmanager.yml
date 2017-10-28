@@ -36,7 +36,7 @@
     state: absent
   with_items: "{{ _alertmanager_templates_found.files | map(attribute='path') | difference(alertmanager_template_file_paths) }}"
   notify:
-    - reload prometheus
+    - reload alertmanager
 
 - name: copy alertmanager template files from playbook directory
   copy:
@@ -45,8 +45,9 @@
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - "{{ alertmanager_templates }}"
+  with_items: "{{ alertmanager_templates }}"
+  notify:
+    - reload alertmanager
 
 - name: write alertmanager config file
   template:

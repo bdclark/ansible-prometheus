@@ -46,8 +46,9 @@
     group: root
     mode: 0644
     validate: "{{ prometheus_bin_dir }}/current/promtool check-rules %s"
-  with_items:
-    - "{{ prometheus_rule_files }}"
+  with_items: "{{ prometheus_rule_files }}"
+  notify:
+    - reload prometheus
 
 - name: write prometheus config file
   template:
