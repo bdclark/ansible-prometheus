@@ -15,7 +15,7 @@ prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(
 prometheus_default_flags:
   config.file: "{{ prometheus_config_dir}}/prometheus.yml"
   storage.local.path: "{{ prometheus_data_dir }}"
-  storage.local.target-heap-size: "{{ ansible_memory_mb.real.total * 1024 * 1024 * 0.67 | round | int }}"
+  storage.local.target-heap-size: "{{ (ansible_memory_mb.real.total * 1024 * 1024 * 0.5) | round | int }}"
 
 prometheus_default_global_config:
   scrape_interval: 1m
