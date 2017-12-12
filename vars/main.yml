@@ -38,7 +38,7 @@ alertmanager_default_flags:
 
 alertmanager_config:
   global: "{{ alertmanager_global_config }}"
-  templates: "{{ alertmanager_templates }}"
+  templates: "{{ alertmanager_template_file_paths }}"
   route: "{{ alertmanager_root_route | combine({'routes': alertmanager_child_routes}, recursive=True) }}"
   receivers: "{{ alertmanager_receivers }}"
   inhibit_rules: "{{ alertmanager_inhibit_rules }}"
