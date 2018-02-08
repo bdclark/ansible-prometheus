@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+
+  roles:
+    - role: prometheus
+      prometheus_components:
+        - prometheus
+  vars:
+    prometheus_version: 1.8.2
+    prometheus_checksum: 9e0e3aeb4ae360ea284b0f751c1a2b40b664ea533ab90af58e8656700db0bc9b
+    prometheus_global_config:
+      scrape_interval: 15s
+      external_labels:
+        monitor: 'codelab-monitor'
+    prometheus_scrape_configs:
+      - job_name: prometheus
+        scrape_interval: 5s
+        static_configs:
+          - targets: ['localhost:9090']
+    prometheus_rule_files:
+      - test.rules

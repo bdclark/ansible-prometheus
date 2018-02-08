@@ -37,10 +37,10 @@ describe file('/etc/prometheus/prometheus.yml') do
   its('mode') { should cmp '0644' }
 end
 
-describe file('/etc/prometheus/rules/test.rules.yml') do
+describe file('/etc/prometheus/rules/test.rules') do
   it { should be_file }
   it { should be_owned_by('root') }
   it { should be_grouped_into('root') }
   its('mode') { should cmp '0644' }
-  its('content') { should contain 'alert: InstanceDown' }
+  its('content') { should contain 'ALERT InstanceDown' }
 end

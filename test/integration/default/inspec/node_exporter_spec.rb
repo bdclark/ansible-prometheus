@@ -26,7 +26,7 @@ end
   'collector.vmstat',
   'no-collector.nfs',
   'no-collector.ntp',
-  'collector.filesystem.ignored-fs-types='
+  'collector.filesystem.ignored-fs-types=',
 ].each do |matcher|
   describe command(%(ps aux | grep -E 'node_exporter.* --#{matcher}')) do
     its('exit_status') { should eq 0 }

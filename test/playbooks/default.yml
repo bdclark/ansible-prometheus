@@ -26,7 +26,7 @@
         static_configs:
           - targets: ['localhost:9090']
     prometheus_rule_files:
-      - test.rules
+      - test.rules.yml
     # alertmanager config
     alertmanager_templates:
       - myorg.tmpl

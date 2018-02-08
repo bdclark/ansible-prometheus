@@ -23,7 +23,7 @@
   prometheus_component_version: "{{ prometheus_version }}"
   prometheus_component_checksum: "{{ prometheus_checksum }}"
   prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
-  prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
+  prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}{{ prometheus_flag_prefix }}{{ k }}={{ v }} {% endfor %}"
 
 - name: get list of current prometheus rule files
   find:
@@ -45,7 +45,7 @@
     owner: root
     group: root
     mode: 0644
-    validate: "{{ prometheus_bin_dir }}/current/promtool check-rules %s"
+    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-rules' if prometheus_version | version_compare('2.0', '<') else 'check rules' }} %s"
   with_items: "{{ prometheus_rule_files }}"
   notify:
     - reload prometheus
@@ -57,7 +57,7 @@
     owner: root
     group: root
     mode: 0644
-    validate: "{{ prometheus_bin_dir }}/current/promtool check-config %s"
+    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-config' if prometheus_version | version_compare('2.0', '<') else 'check config' }} %s"
   notify:
     - reload prometheus
 

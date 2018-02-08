@@ -21,3 +21,6 @@ suites:
   - name: default
     provisioner:
       playbook: test/playbooks/default.yml
+  - name: prometheus_v1
+    provisioner:
+      playbook: test/playbooks/prometheus_v1.yml

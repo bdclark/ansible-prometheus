@@ -26,9 +26,9 @@ prometheus_exporters_config_dir: /etc/prometheus/exporters
 # PROMETHEUS
 #############################
 # version to install
-prometheus_version: 1.8.0
+prometheus_version: 2.1.0
 # checksum is optional
-prometheus_checksum: 5028defde39c4b9975b6174a2dbf29983cbae9f18e9d8313d9187d4b1078da27
+prometheus_checksum: f181f619c9a8e0750c1ac940eb00a0881cc50386d896f06f159e9a5b68db60a0
 # whether service is enabled and started
 prometheus_service_enabled: yes
 # additional command-line flags

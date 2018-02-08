@@ -1,4 +1,5 @@
 ---
+# list of components supported by this role
 prometheus_components_available:
   - prometheus
   - alertmanager
@@ -10,18 +11,33 @@ prometheus_components_available:
   - mongodb_exporter
   - rabbitmq_exporter
 
+# list of full paths of rule files managed by this role
 prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
 
-prometheus_default_flags:
+# version-dependent prefix to use on command-line flags
+prometheus_flag_prefix: "{{ '-' if prometheus_version | version_compare('2.0', '<') else '--' }}"
+
+# default command-line flags for prometheus 1.x
+prometheus_default_flags_1x:
   config.file: "{{ prometheus_config_dir}}/prometheus.yml"
   storage.local.path: "{{ prometheus_data_dir }}"
   storage.local.target-heap-size: "{{ (ansible_memory_mb.real.total * 1024 * 1024 * 0.5) | round | int }}"
 
+# default command-line flags for prometheus 2.x
+prometheus_default_flags_2x:
+  config.file: "{{ prometheus_config_dir}}/prometheus.yml"
+  storage.tsdb.path: "{{ prometheus_data_dir }}"
+
+# actual version-dependent prometheus command-line flags
+prometheus_default_flags: "{{ prometheus_default_flags_1x if prometheus_version | version_compare('2.0', '<') else prometheus_default_flags_2x }}"
+
+# default prometheus config - global section
 prometheus_default_global_config:
   scrape_interval: 1m
   scrape_timeout: 10s
   evaluation_interval: 1m
 
+# full prometheus config
 prometheus_config:
   global: "{{ prometheus_default_global_config | combine(prometheus_global_config, recursive=True) }}"
   rule_files: "{{ prometheus_rule_file_paths }}"
@@ -30,12 +46,15 @@ prometheus_config:
   remote_write: "{{ prometheus_remote_write_config }}"
   remote_read: "{{ prometheus_remote_read_config }}"
 
+# list of full paths of alertmanager template files managed by this role
 alertmanager_template_file_paths: "{{ alertmanager_templates | map('regex_replace', '^(.*)$', alertmanager_template_dir +'/\\1') | list }}"
 
+# default command-line flags for alertmanager
 alertmanager_default_flags:
   config.file: "{{ alertmanager_config_dir}}/alertmanager.yml"
   storage.path: "{{ alertmanager_data_dir }}"
 
+# full alertmanager config
 alertmanager_config:
   global: "{{ alertmanager_global_config }}"
   templates: "{{ alertmanager_template_file_paths }}"
@@ -43,9 +62,10 @@ alertmanager_config:
   receivers: "{{ alertmanager_receivers }}"
   inhibit_rules: "{{ alertmanager_inhibit_rules }}"
 
+# default command-line flags for blackbox exporter
 blackbox_exporter_default_flags:
   config.file: "{{ blackbox_exporter_config_file }}"
 
-# component install variables
+# variables used for component installs
 prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"
 prometheus_component_default_url: https://github.com/prometheus/{{ prometheus_component_name }}/releases/download/v{{ prometheus_component_version }}/{{ prometheus_component_release_name }}.tar.gz
