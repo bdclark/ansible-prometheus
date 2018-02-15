@@ -49,9 +49,12 @@ prometheus_config:
 # list of full paths of alertmanager template files managed by this role
 alertmanager_template_file_paths: "{{ alertmanager_templates | map('regex_replace', '^(.*)$', alertmanager_template_dir +'/\\1') | list }}"
 
+# version-dependent prefix to use on command-line flags
+alertmanager_flag_prefix: "{{ '-' if alertmanager_version | version_compare('0.13.0', '<') else '--' }}"
+
 # default command-line flags for alertmanager
 alertmanager_default_flags:
-  config.file: "{{ alertmanager_config_dir}}/alertmanager.yml"
+  config.file: "{{ alertmanager_config_dir }}/alertmanager.yml"
   storage.path: "{{ alertmanager_data_dir }}"
 
 # full alertmanager config

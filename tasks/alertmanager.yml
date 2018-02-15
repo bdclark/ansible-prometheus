@@ -23,7 +23,7 @@
   prometheus_component_version: "{{ alertmanager_version }}"
   prometheus_component_checksum: "{{ alertmanager_checksum }}"
   prometheus_component_install_dir: "{{ alertmanager_bin_dir }}"
-  prometheus_component_service_args: "{% for k, v in (alertmanager_default_flags | combine(alertmanager_flags)).iteritems() %}-{{ k }}={{ v }} {% endfor %}"
+  prometheus_component_service_args: "{% for k, v in (alertmanager_default_flags | combine(alertmanager_flags)).iteritems() %}{{ alertmanager_flag_prefix }}{{ k }}={{ v }} {% endfor %}"
 
 - name: get list of current alertmanager template files
   find:
@@ -56,7 +56,7 @@
     owner: root
     group: root
     mode: 0644
-    validate: "{{ alertmanager_bin_dir }}/current/amtool check-config %s"
+    validate: "{{ alertmanager_bin_dir }}/current/amtool check-config %s{% if alertmanager_version | version_compare('0.13.0', '>=') %} --alertmanager.url=localhost:9093{% endif %}"
   notify:
     - reload alertmanager
 
