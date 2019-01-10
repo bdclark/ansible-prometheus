@@ -35,17 +35,24 @@ prometheus_service_enabled: yes
 prometheus_flags: {}
 # installation directory
 prometheus_bin_dir: /opt/prometheus
+# prometheus data directory
+prometheus_data_dir: /var/lib/prometheus
 # configuration directory (for prometheus.yml)
 prometheus_config_dir: /etc/prometheus
 # directory to copy rules into
 prometheus_rule_dir: "{{ prometheus_config_dir }}/rules"
-# prometheus data directory
-prometheus_data_dir: /var/lib/prometheus
+# whether to ensure `prometheus_rule_dir` _only_ contains files listed in `prometheus_rule_files`
+# all other files will be deleted
+prometheus_manage_rule_dir: yes
+# list of filenames to exclude from deletion if `prometheus_manage_rule_dir` is enabled
+# (helpful if specific rule file(s) may be managed outside this role)
+prometheus_rule_files_ignore: []
 
 # prometheus config file sections
 ## global config
 prometheus_global_config: {}
 ## list of rule filenames to copy from `prometheus_rule_src_dir`
+## files will be copied to `prometheus_rule_dir`
 prometheus_rule_files: []
 ## scrape_configs (list of jobs)
 prometheus_scrape_configs: []

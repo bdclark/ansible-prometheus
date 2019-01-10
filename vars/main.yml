@@ -13,6 +13,8 @@ prometheus_components_available:
 
 # list of full paths of rule files managed by this role
 prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
+# list of full paths of rule files to ignore (not delete if `prometheus_manage_rule_dir` is enabled)
+prometheus_rule_file_ignore_paths: "{{ prometheus_rule_files_ignore | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
 
 # version-dependent prefix to use on command-line flags
 prometheus_flag_prefix: "{{ '-' if prometheus_version | version_compare('2.0', '<') else '--' }}"

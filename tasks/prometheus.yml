@@ -29,12 +29,14 @@
   find:
     paths: "{{ prometheus_rule_dir }}"
   register: _prometheus_rules_found
+  when: prometheus_manage_rule_dir
 
-- name: remove unmanaged prometheus rule files
+- name: remove unmanaged prometheus rule files (unless specifically ignored)
   file:
     path: "{{ item }}"
     state: absent
-  with_items: "{{ _prometheus_rules_found.files | map(attribute='path') | difference(prometheus_rule_file_paths) }}"
+  with_items: "{{ _prometheus_rules_found.files | map(attribute='path') | difference(prometheus_rule_file_paths | union(prometheus_rule_file_ignore_paths)) }}"
+  when: prometheus_manage_rule_dir
   notify:
     - reload prometheus
 
