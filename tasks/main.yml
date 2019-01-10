@@ -23,7 +23,7 @@
         createhome: no
   when: prometheus_manage_user and prometheus_components | length > 0
 
-- include: "{{ component_item }}.yml"
+- include_tasks: "{{ component_item }}.yml"
   with_items: "{{ prometheus_components }}"
   loop_control:
     loop_var: component_item

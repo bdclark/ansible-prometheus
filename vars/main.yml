@@ -17,7 +17,7 @@ prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(
 prometheus_rule_file_ignore_paths: "{{ prometheus_rule_files_ignore | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
 
 # version-dependent prefix to use on command-line flags
-prometheus_flag_prefix: "{{ '-' if prometheus_version | version_compare('2.0', '<') else '--' }}"
+prometheus_flag_prefix: "{{ '-' if prometheus_version is version('2.0', '<') else '--' }}"
 
 # default command-line flags for prometheus 1.x
 prometheus_default_flags_1x:
@@ -31,7 +31,7 @@ prometheus_default_flags_2x:
   storage.tsdb.path: "{{ prometheus_data_dir }}"
 
 # actual version-dependent prometheus command-line flags
-prometheus_default_flags: "{{ prometheus_default_flags_1x if prometheus_version | version_compare('2.0', '<') else prometheus_default_flags_2x }}"
+prometheus_default_flags: "{{ prometheus_default_flags_1x if prometheus_version is version('2.0', '<') else prometheus_default_flags_2x }}"
 
 # default prometheus config - global section
 prometheus_default_global_config:
@@ -52,7 +52,7 @@ prometheus_config:
 alertmanager_template_file_paths: "{{ alertmanager_templates | map('regex_replace', '^(.*)$', alertmanager_template_dir +'/\\1') | list }}"
 
 # version-dependent prefix to use on command-line flags
-alertmanager_flag_prefix: "{{ '-' if alertmanager_version | version_compare('0.13.0', '<') else '--' }}"
+alertmanager_flag_prefix: "{{ '-' if alertmanager_version is version('0.13.0', '<') else '--' }}"
 
 # default command-line flags for alertmanager
 alertmanager_default_flags:

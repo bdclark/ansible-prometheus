@@ -5,7 +5,7 @@ driver:
 provisioner:
   name: ansible_push
   ansible_config: test/ansible.cfg
-  verbose: vv
+  # verbose: vv
   diff: true
   chef_bootstrap_url: nil
 

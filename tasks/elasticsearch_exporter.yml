@@ -1,12 +1,13 @@
 ---
-- include: component_install.yml
-  prometheus_component_name: elasticsearch_exporter
-  prometheus_component_service_name: elasticsearch_exporter
-  prometheus_component_version: "{{ elasticsearch_exporter_version }}"
-  prometheus_component_url: "{{ elasticsearch_exporter_url }}"
-  prometheus_component_install_dir: "{{ elasticsearch_exporter_bin_dir }}"
-  prometheus_component_checksum: "{{ elasticsearch_exporter_checksum }}"
-  prometheus_component_service_args: "{% for k, v in elasticsearch_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+- import_tasks: component_install.yml
+  vars:
+    prometheus_component_name: elasticsearch_exporter
+    prometheus_component_service_name: elasticsearch_exporter
+    prometheus_component_version: "{{ elasticsearch_exporter_version }}"
+    prometheus_component_url: "{{ elasticsearch_exporter_url }}"
+    prometheus_component_install_dir: "{{ elasticsearch_exporter_bin_dir }}"
+    prometheus_component_checksum: "{{ elasticsearch_exporter_checksum }}"
+    prometheus_component_service_args: "{% for k, v in elasticsearch_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
 
 - name: manage elasticsearch_exporter service
   service:

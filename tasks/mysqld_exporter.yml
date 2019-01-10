@@ -1,12 +1,13 @@
 ---
-- include: component_install.yml
-  prometheus_component_name: mysqld_exporter
-  prometheus_component_service_name: mysqld_exporter
-  prometheus_component_version: "{{ mysqld_exporter_version }}"
-  prometheus_component_install_dir: "{{ mysqld_exporter_bin_dir }}"
-  prometheus_component_checksum: "{{ mysqld_exporter_checksum }}"
-  prometheus_component_service_args: "{% for k, v in mysqld_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
-  prometheus_component_env_vars: "{{ {'DATA_SOURCE_NAME': mysqld_exporter_data_source_name} if mysqld_exporter_data_source_name is defined else {} }}"
+- import_tasks: component_install.yml
+  vars:
+    prometheus_component_name: mysqld_exporter
+    prometheus_component_service_name: mysqld_exporter
+    prometheus_component_version: "{{ mysqld_exporter_version }}"
+    prometheus_component_install_dir: "{{ mysqld_exporter_bin_dir }}"
+    prometheus_component_checksum: "{{ mysqld_exporter_checksum }}"
+    prometheus_component_service_args: "{% for k, v in mysqld_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+    prometheus_component_env_vars: "{{ {'DATA_SOURCE_NAME': mysqld_exporter_data_source_name} if mysqld_exporter_data_source_name is defined else {} }}"
 
 - name: manage mysqld_exporter service
   service:

@@ -27,6 +27,8 @@
           - targets: ['localhost:9090']
     prometheus_rule_files:
       - test.rules.yml
+    prometheus_rule_files_ignore:
+      - foo.yml
     # alertmanager config
     alertmanager_templates:
       - myorg.tmpl

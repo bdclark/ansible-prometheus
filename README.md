@@ -13,11 +13,11 @@ Installs/configures Prometheus and some friends:
 
 Requirements
 ------------
+- Ansible 2.5+
 - Tested on the following platforms:
   * Ubuntu 14.04
   * Ubuntu 16.04
   * Centos 7.3
-- Ansible 2.3+
 
 
 Role Variables

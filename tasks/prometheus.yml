@@ -17,13 +17,14 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
 
-- include: component_install.yml
-  prometheus_component_name: prometheus
-  prometheus_component_service_name: prometheus
-  prometheus_component_version: "{{ prometheus_version }}"
-  prometheus_component_checksum: "{{ prometheus_checksum }}"
-  prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
-  prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}{{ prometheus_flag_prefix }}{{ k }}={{ v }} {% endfor %}"
+- import_tasks: component_install.yml
+  vars:
+    prometheus_component_name: prometheus
+    prometheus_component_service_name: prometheus
+    prometheus_component_version: "{{ prometheus_version }}"
+    prometheus_component_checksum: "{{ prometheus_checksum }}"
+    prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
+    prometheus_component_service_args: "{% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}{{ prometheus_flag_prefix }}{{ k }}={{ v }} {% endfor %}"
 
 - name: get list of current prometheus rule files
   find:
@@ -37,8 +38,7 @@
     state: absent
   with_items: "{{ _prometheus_rules_found.files | map(attribute='path') | difference(prometheus_rule_file_paths | union(prometheus_rule_file_ignore_paths)) }}"
   when: prometheus_manage_rule_dir
-  notify:
-    - reload prometheus
+  notify: reload prometheus
 
 - name: copy prometheus rule files from playbook directory
   copy:
@@ -47,10 +47,9 @@
     owner: root
     group: root
     mode: 0644
-    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-rules' if prometheus_version | version_compare('2.0', '<') else 'check rules' }} %s"
+    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-rules' if prometheus_version is version('2.0', '<') else 'check rules' }} %s"
   with_items: "{{ prometheus_rule_files }}"
-  notify:
-    - reload prometheus
+  notify: reload prometheus
 
 - name: write prometheus config file
   template:
@@ -59,9 +58,8 @@
     owner: root
     group: root
     mode: 0644
-    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-config' if prometheus_version | version_compare('2.0', '<') else 'check config' }} %s"
-  notify:
-    - reload prometheus
+    validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-config' if prometheus_version is version('2.0', '<') else 'check config' }} %s"
+  notify: reload prometheus
 
 - name: manage prometheus service
   service:
