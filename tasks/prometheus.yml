@@ -1,14 +1,19 @@
 ---
-- name: create prometheus config directories
+- name: create prometheus config directory
   file:
-    path: "{{ item }}"
+    path: "{{ prometheus_config_dir }}"
     state: directory
     owner: root
-    group: root
+    group: "{{ prometheus_group }}"
     mode: 0755
-  with_items:
-    - "{{ prometheus_config_dir }}"
-    - "{{ prometheus_rule_dir }}"
+
+- name: create prometheus rule directory
+  file:
+    path: "{{ prometheus_rule_dir }}"
+    state: directory
+    owner: root
+    group: "{{ prometheus_group }}"
+    mode: "{{ prometheus_rule_dir_mode }}"
 
 - name: create prometheus data directory
   file:

@@ -41,6 +41,9 @@ prometheus_data_dir: /var/lib/prometheus
 prometheus_config_dir: /etc/prometheus
 # directory to copy rules into
 prometheus_rule_dir: "{{ prometheus_config_dir }}/rules"
+# by default, members of `prometheus_group` can only read the rules directory
+# changing to 0775 will allow members to add/edit rule files
+prometheus_rule_dir_mode: 0755
 # whether to ensure `prometheus_rule_dir` _only_ contains files listed in `prometheus_rule_files`
 # all other files will be deleted
 prometheus_manage_rule_dir: yes
