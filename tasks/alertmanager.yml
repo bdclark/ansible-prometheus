@@ -4,7 +4,7 @@
     path: "{{ item }}"
     state: directory
     owner: root
-    group: root
+    group: "{{ prometheus_group }}"
     mode: 0755
   with_items:
     - "{{ alertmanager_config_dir }}"
@@ -44,8 +44,8 @@
     src: "{{ alertmanager_template_src_dir }}/{{ item }}"
     dest: "{{ alertmanager_template_dir }}/{{ item }}"
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_group }}"
+    mode: "{{ promethus_config_file_mode }}"
   with_items: "{{ alertmanager_templates }}"
   notify:
     - reload alertmanager
@@ -55,8 +55,8 @@
     src: "{{ alertmanager_config_src }}"
     dest: "{{ alertmanager_config_dir}}/alertmanager.yml"
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_group }}"
+    mode: "{{ promethus_config_file_mode }}"
     validate: "{{ alertmanager_bin_dir }}/current/amtool check-config %s{% if alertmanager_version is version('0.13.0', '>=') %} --alertmanager.url=localhost:9093{% endif %}"
   notify:
     - reload alertmanager

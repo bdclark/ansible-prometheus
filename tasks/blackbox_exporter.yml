@@ -19,8 +19,8 @@
     src: blackbox_exporter.yml.j2
     dest: "{{ blackbox_exporter_config_file }}"
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_group }}"
+    mode: "{{ promethus_config_file_mode }}"
   notify:
     - restart blackbox_exporter
 

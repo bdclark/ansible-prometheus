@@ -50,8 +50,8 @@
     src: "{{ prometheus_rule_src_dir }}/{{ item }}"
     dest: "{{ prometheus_rule_dir }}/{{ item }}"
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_group }}"
+    mode: "{{ promethus_config_file_mode }}"
     validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-rules' if prometheus_version is version('2.0', '<') else 'check rules' }} %s"
   with_items: "{{ prometheus_rule_files }}"
   notify: reload prometheus
@@ -61,8 +61,8 @@
     src: "{{ prometheus_config_src }}"
     dest: "{{ prometheus_config_dir }}/prometheus.yml"
     owner: root
-    group: root
-    mode: 0644
+    group: "{{ prometheus_group }}"
+    mode: "{{ promethus_config_file_mode }}"
     validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-config' if prometheus_version is version('2.0', '<') else 'check config' }} %s"
   notify: reload prometheus
 
