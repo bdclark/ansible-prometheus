@@ -7,13 +7,13 @@
     group: "{{ prometheus_group }}"
     mode: 0755
 
-- name: create prometheus rule directory
+- name: create prometheus managed rule directory
   file:
-    path: "{{ prometheus_rule_dir }}"
+    path: "{{ prometheus_managed_rule_dir }}"
     state: directory
     owner: root
     group: "{{ prometheus_group }}"
-    mode: "{{ prometheus_rule_dir_mode }}"
+    mode: 0755
 
 - name: create prometheus data directory
   file:
@@ -33,27 +33,25 @@
 
 - name: get list of current prometheus rule files
   find:
-    paths: "{{ prometheus_rule_dir }}"
+    paths: "{{ prometheus_managed_rule_dir }}"
   register: _prometheus_rules_found
-  when: prometheus_manage_rule_dir
 
-- name: remove unmanaged prometheus rule files (unless specifically ignored)
+- name: remove unmanaged prometheus rule files
   file:
     path: "{{ item }}"
     state: absent
-  with_items: "{{ _prometheus_rules_found.files | map(attribute='path') | difference(prometheus_rule_file_paths | union(prometheus_rule_file_ignore_paths)) }}"
-  when: prometheus_manage_rule_dir
+  with_items: "{{ _prometheus_rules_found.files | map(attribute='path') | difference(prometheus_rule_file_paths) }}"
   notify: reload prometheus
 
 - name: copy prometheus rule files from playbook directory
   copy:
     src: "{{ prometheus_rule_src_dir }}/{{ item }}"
-    dest: "{{ prometheus_rule_dir }}/{{ item }}"
+    dest: "{{ prometheus_managed_rule_dir }}/{{ item }}"
     owner: root
     group: "{{ prometheus_group }}"
     mode: "{{ promethus_config_file_mode }}"
     validate: "{{ prometheus_bin_dir }}/current/promtool {{ 'check-rules' if prometheus_version is version('2.0', '<') else 'check rules' }} %s"
-  with_items: "{{ prometheus_rule_files }}"
+  with_items: "{{ prometheus_rule_filenames }}"
   notify: reload prometheus
 
 - name: write prometheus config file

@@ -25,10 +25,8 @@
         scrape_interval: 5s
         static_configs:
           - targets: ['localhost:9090']
-    prometheus_rule_files:
+    prometheus_rule_filenames:
       - test.rules.yml
-    prometheus_rule_files_ignore:
-      - foo.yml
     # alertmanager config
     alertmanager_templates:
       - myorg.tmpl

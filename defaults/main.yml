@@ -39,21 +39,17 @@ prometheus_bin_dir: /opt/prometheus
 prometheus_data_dir: /var/lib/prometheus
 # configuration directory (for prometheus.yml)
 prometheus_config_dir: /etc/prometheus
-# directory to copy rules into
-prometheus_rule_dir: "{{ prometheus_config_dir }}/rules"
-# whether to ensure `prometheus_rule_dir` _only_ contains files listed in `prometheus_rule_files`
-# all other files will be deleted
-prometheus_manage_rule_dir: yes
-# list of filenames to exclude from deletion if `prometheus_manage_rule_dir` is enabled
-# (helpful if specific rule file(s) may be managed outside this role)
-prometheus_rule_files_ignore: []
+# directory to copy rules into (managed by role - extra files will be deleted)
+prometheus_managed_rule_dir: "{{ prometheus_config_dir }}/rules"
 
 # prometheus config file sections
 ## global config
 prometheus_global_config: {}
 ## list of rule filenames to copy from `prometheus_rule_src_dir`
-## files will be copied to `prometheus_rule_dir`
-prometheus_rule_files: []
+## files will be copied to `prometheus_managed_rule_dir`
+prometheus_rule_filenames: []
+## list of paths (globs) containing rules in addition to those in `prometheus_managed_rule_dir`
+prometheus_additional_rule_files: []
 ## scrape_configs (list of jobs)
 prometheus_scrape_configs: []
 ## alerting, remote_write, remote_read configs
@@ -61,8 +57,6 @@ prometheus_alerting_config: ~
 prometheus_remote_write_config: ~
 prometheus_remote_read_config: ~
 
-# directory mode of the prometheus rules dir (owned by user root and group `prometheus_group`)
-prometheus_rule_dir_mode: 0755
 # file mode of all config files (owned by user root and group `prometheus_group`)
 promethus_config_file_mode: 0644
 

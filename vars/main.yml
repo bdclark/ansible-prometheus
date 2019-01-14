@@ -12,9 +12,7 @@ prometheus_components_available:
   - rabbitmq_exporter
 
 # list of full paths of rule files managed by this role
-prometheus_rule_file_paths: "{{ prometheus_rule_files | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
-# list of full paths of rule files to ignore (not delete if `prometheus_manage_rule_dir` is enabled)
-prometheus_rule_file_ignore_paths: "{{ prometheus_rule_files_ignore | map('regex_replace', '^(.*)$', prometheus_rule_dir +'/\\1') | list }}"
+prometheus_rule_file_paths: "{{ prometheus_rule_filenames | map('regex_replace', '^(.*)$', prometheus_managed_rule_dir +'/\\1') | list }}"
 
 # version-dependent prefix to use on command-line flags
 prometheus_flag_prefix: "{{ '-' if prometheus_version is version('2.0', '<') else '--' }}"
@@ -42,7 +40,7 @@ prometheus_default_global_config:
 # full prometheus config
 prometheus_config:
   global: "{{ prometheus_default_global_config | combine(prometheus_global_config, recursive=True) }}"
-  rule_files: "{{ prometheus_rule_file_paths }}"
+  rule_files: "{{ prometheus_rule_file_paths + prometheus_additional_rule_files }}"
   scrape_configs: "{{ prometheus_scrape_configs }}"
   alerting: "{{ prometheus_alerting_config }}"
   remote_write: "{{ prometheus_remote_write_config }}"
