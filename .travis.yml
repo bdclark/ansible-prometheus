@@ -5,7 +5,7 @@ dist: xenial
 
 env:
   global:
-    - ROLE_NAME: jenkins
+    - ROLE_NAME: prometheus
     - REPO_NAME: "ansible-${ROLE_NAME}"
   matrix:
     - ANSIBLE_VERSION: '2.5'

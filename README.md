@@ -1,5 +1,7 @@
 # Prometheus Ansible Role
 
+[![Build Status](https://travis-ci.org/bdclark/ansible-prometheus.svg?branch=master)](https://travis-ci.org/bdclark/ansible-prometheus)
+
 Installs/configures Prometheus and some friends:
 - prometheus
 - alertmanager
@@ -13,12 +15,10 @@ Installs/configures Prometheus and some friends:
 
 Requirements
 ------------
-- Ansible 2.5+
-- Tested on the following platforms:
-  * Ubuntu 14.04
-  * Ubuntu 16.04
-  * Centos 7.3
-
+This role has been tested with the following versions of Ansible and operating systems:
+- Ansible 2.5, 2.7
+- Ubuntu 16.04, 18.04
+- Centos 7.x
 
 Role Variables
 --------------
@@ -31,3 +31,7 @@ Example Playbook
 See [test/playbooks](test/playbooks) for example usage.
 
 TODO: Add additional usage docs and examples.
+Requirements
+------------
+This role has been tested with the following versions of Ansible and operating systems:
+- Ansible 2.5, 2.7
