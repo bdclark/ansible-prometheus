@@ -1,9 +1,11 @@
 ---
-- assert:
+- name: assert system is systemd or upstart
+  assert:
     that: ansible_service_mgr in ['systemd', 'upstart']
     msg: This role only supports systemd or upstart
 
-- assert:
+- name: assert chosen prometheus_components are supported
+  assert:
     that: prometheus_components | difference(prometheus_components_available) | length == 0
     msg: "Valid prometheus_components are: {{ prometheus_components_available }}"
 
