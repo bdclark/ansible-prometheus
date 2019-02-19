@@ -55,3 +55,17 @@
       package:
         name: net-tools
         state: present
+
+    - name: wait for exporter ports
+      wait_for:
+        port: "{{ item }}"
+        timeout: 30
+      with_items:
+        - 9093
+        - 9090
+        - 9100
+        - 9107
+        - 9104
+        - 9108
+        - 9216
+        - 9110

@@ -28,8 +28,6 @@ platforms:
     driver_config:
       image: bdclark/ubuntu-1804-test:latest
       run_command: /lib/systemd/systemd
-      # forward:
-      #   - 8080:8080
   - name: ubuntu-16.04
     driver_config:
       image: bdclark/ubuntu-1604-test:latest

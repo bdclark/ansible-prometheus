@@ -26,9 +26,9 @@ prometheus_exporters_config_dir: /etc/prometheus/exporters
 # PROMETHEUS
 #############################
 # version to install
-prometheus_version: 2.1.0
+prometheus_version: 2.7.1
 # checksum is optional
-prometheus_checksum: f181f619c9a8e0750c1ac940eb00a0881cc50386d896f06f159e9a5b68db60a0
+prometheus_checksum: 7837cfd6b5af63c07cadfa2b3118f0a43e43e8a6e6d596425cb23b45855b7db0
 # whether service is enabled and started
 prometheus_service_enabled: true
 # additional command-line flags
@@ -70,9 +70,9 @@ prometheus_config_src: prometheus.yml.j2
 # ALERTMANAGER
 #############################
 # version to install
-alertmanager_version: 0.14.0
+alertmanager_version: 0.16.1
 # checksum is optional
-alertmanager_checksum: caddbbbe3ef8545c6cefb32f9a11207ae18dcc788e8d0fb19659d88c58d14b37
+alertmanager_checksum: 60f37a73f42e2d51e1dba319b75875a1ab5e0bf71944ad4efb735468f7c081c4
 # whether service is enabled and started
 alertmanager_service_enabled: true
 # additional command-line flags
@@ -110,9 +110,9 @@ alertmanager_config_src: alertmanager.yml.j2
 # NODE_EXPORTER
 #############################
 # version to install
-node_exporter_version: 0.15.0
+node_exporter_version: 0.17.0
 # checksum is optional
-node_exporter_checksum: 9413b3c94dbe9d4341ce85ea7e3f0e20abb8804135b8c236c4440c2c841551d7
+node_exporter_checksum: d2e00d805dbfdc67e7291ce2d2ff151f758dd7401dd993411ff3818d0e231489
 # installation directory
 node_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/node_exporter"
 # whether service is enabled and started
@@ -129,9 +129,9 @@ node_exporter_collectors_disabled: []
 # BLACKBOX_EXPORTER
 #############################
 # version to install
-blackbox_exporter_version: 0.10.0
+blackbox_exporter_version: 0.13.0
 # checksum is optional
-blackbox_exporter_checksum: 2550e6b2bffec48e742cd47e3873742c51cf3a979dbe5ea2bf228e8c135aedf2
+blackbox_exporter_checksum: 641ebedf12796a04be8f5dc18eeebe64c2332130d1f0f2453f627996a30855ff
 # installation directory
 blackbox_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/blackbox_exporter"
 # configuration file path
@@ -148,9 +148,9 @@ blackbox_exporter_config: {}
 # CONSUL_EXPORTER
 #############################
 # version to install
-consul_exporter_version: 0.3.0
+consul_exporter_version: 0.4.0
 # checksum is optional
-consul_exporter_checksum: a7ee604d6c16fd096fff2f8f8d07da3a66c79b04b9135b8c71f0b9c79098e1ec
+consul_exporter_checksum: ff77c03de67cf381f67480b5be6699901785a34145c518c3484ae3e5b8440d08
 # installation directory
 consul_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/consul_exporter"
 # whether service is enabled and started
@@ -162,9 +162,9 @@ consul_exporter_flags: {}
 # MYSQLD_EXPORTER
 #############################
 # version to install
-mysqld_exporter_version: 0.10.0
+mysqld_exporter_version: 0.11.0
 # checksum is optional
-mysqld_exporter_checksum: 32797bc96aa00bb20e0b9165f6d3887fe9612b474061ee7de0189f5377b61859
+mysqld_exporter_checksum: b53ad48ff14aa891eb6a959730ffc626db98160d140d9a66377394714c563acf
 # installation directory
 mysqld_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mysqld_exporter"
 # whether service is enabled and started
@@ -178,7 +178,7 @@ mysqld_exporter_flags: {}
 # ELASTICSEARCH_EXPORTER (THIRD-PARTY)
 #############################
 # version to install
-elasticsearch_exporter_version: 1.0.1
+elasticsearch_exporter_version: 1.0.2
 # url to download tarball
 elasticsearch_exporter_url: https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v{{ elasticsearch_exporter_version }}/elasticsearch_exporter-{{ elasticsearch_exporter_version }}.linux-amd64.tar.gz
 # checksum is optional
@@ -210,9 +210,9 @@ mongodb_exporter_flags: {}
 # RABBITMQ_EXPORTER (THIRD-PARTY)
 #############################
 # version to install
-rabbitmq_exporter_version: 0.23.0
+rabbitmq_exporter_version: 0.29.0
 # url to download tarball
-rabbitmq_exporter_url: https://github.com/kbudde/rabbitmq_exporter/releases/download/v0.23.0/rabbitmq_exporter-0.23.0.linux-amd64.tar.gz
+rabbitmq_exporter_url: https://github.com/kbudde/rabbitmq_exporter/releases/download/v{{ rabbitmq_exporter_version }}/rabbitmq_exporter-{{ rabbitmq_exporter_version }}.linux-amd64.tar.gz
 # checksum is optional
 rabbitmq_exporter_checksum: ~
 # installation directory
