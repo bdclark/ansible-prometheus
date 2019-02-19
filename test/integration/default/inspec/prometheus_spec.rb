@@ -7,7 +7,6 @@ end
 
 describe port('9090') do
   it { should be_listening }
-  its('processes') { should include 'prometheus' }
 end
 
 %w(/etc/prometheus /etc/prometheus/rules).each do |d|
@@ -19,7 +18,7 @@ end
   end
 end
 
-describe file("/opt/prometheus/dist") do
+describe file('/opt/prometheus/dist') do
   it { should be_directory }
   it { should be_owned_by('root') }
   it { should be_grouped_into('root') }

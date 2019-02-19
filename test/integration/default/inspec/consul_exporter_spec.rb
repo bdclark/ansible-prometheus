@@ -7,7 +7,6 @@ end
 
 describe port('9107') do
   it { should be_listening }
-  its('processes') { should include 'consul_exporter' }
 end
 
 describe file('/opt/prometheus/exporters/consul_exporter/dist') do

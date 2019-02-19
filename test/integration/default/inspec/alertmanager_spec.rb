@@ -7,7 +7,6 @@ end
 
 describe port('9093') do
   it { should be_listening }
-  its('processes') { should include 'alertmanager' }
 end
 
 %w(/etc/alertmanager /etc/alertmanager/templates).each do |d|
@@ -19,7 +18,7 @@ end
   end
 end
 
-describe file("/opt/alertmanager/dist") do
+describe file('/opt/alertmanager/dist') do
   it { should be_directory }
   it { should be_owned_by('root') }
   it { should be_grouped_into('root') }

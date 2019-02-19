@@ -7,7 +7,6 @@ end
 
 describe port('9115') do
   it { should be_listening }
-  its('processes') { should include 'blackbox_export' }
 end
 
 describe file('/opt/prometheus/exporters/blackbox_exporter/dist') do

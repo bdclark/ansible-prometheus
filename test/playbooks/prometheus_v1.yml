@@ -20,3 +20,9 @@
           - targets: ['localhost:9090']
     prometheus_rule_filenames:
       - test.rules
+
+  tasks:
+    - name: install testing dependencies
+      package:
+        name: net-tools
+        state: present

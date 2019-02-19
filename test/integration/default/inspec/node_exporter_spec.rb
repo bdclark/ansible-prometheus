@@ -7,7 +7,6 @@ end
 
 describe port('9100') do
   it { should be_listening }
-  its('processes') { should include 'node_exporter' }
 end
 
 describe file('/opt/prometheus/exporters/node_exporter/dist') do

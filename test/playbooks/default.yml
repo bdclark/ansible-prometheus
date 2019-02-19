@@ -49,3 +49,9 @@
     rabbitmq_exporter_env_vars:
       PUBLISH_PORT: 9110
     mysqld_exporter_data_source_name: root@localhost:3306/mysql
+
+  tasks:
+    - name: install testing dependencies
+      package:
+        name: net-tools
+        state: present
