@@ -19,7 +19,7 @@
 
 - name: extract {{ prometheus_component_name }} tarball
   unarchive:
-    remote_src: yes
+    remote_src: true
     src: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}.tar.gz"
     dest: "{{ prometheus_component_install_dir }}/dist"
     creates: "{{ prometheus_component_install_dir }}/dist/{{ prometheus_component_release_name }}/{{ prometheus_component_name }}"

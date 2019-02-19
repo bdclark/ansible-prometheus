@@ -11,16 +11,16 @@
     - name: create prometheus system group
       group:
         name: "{{ prometheus_group }}"
-        system: yes
+        system: true
         state: present
 
     - name: create prometheus system user
       user:
         name: "{{ prometheus_user }}"
-        system: yes
+        system: true
         shell: "/sbin/nologin"
         group: "{{ prometheus_group }}"
-        createhome: no
+        createhome: false
   when: prometheus_manage_user and prometheus_components | length > 0
 
 - include_tasks: "{{ component_item }}.yml"

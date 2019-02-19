@@ -4,17 +4,17 @@
 #############################
 # which components to install
 prometheus_components: []
-  # - prometheus
-  # - alertmanager
-  # - node_exporter
-  # - blackbox_exporter
-  # - consul_exporter
-  # - elasticsearch_exporter
-  # - mongodb_exporter
-  # - rabbitmq_exporter
+# - prometheus
+# - alertmanager
+# - node_exporter
+# - blackbox_exporter
+# - consul_exporter
+# - elasticsearch_exporter
+# - mongodb_exporter
+# - rabbitmq_exporter
 
 # whether to create prometheus user/group
-prometheus_manage_user: yes
+prometheus_manage_user: true
 prometheus_user: prometheus
 prometheus_group: prometheus
 
@@ -30,7 +30,7 @@ prometheus_version: 2.1.0
 # checksum is optional
 prometheus_checksum: f181f619c9a8e0750c1ac940eb00a0881cc50386d896f06f159e9a5b68db60a0
 # whether service is enabled and started
-prometheus_service_enabled: yes
+prometheus_service_enabled: true
 # additional command-line flags
 prometheus_flags: {}
 # installation directory
@@ -74,7 +74,7 @@ alertmanager_version: 0.14.0
 # checksum is optional
 alertmanager_checksum: caddbbbe3ef8545c6cefb32f9a11207ae18dcc788e8d0fb19659d88c58d14b37
 # whether service is enabled and started
-alertmanager_service_enabled: yes
+alertmanager_service_enabled: true
 # additional command-line flags
 alertmanager_flags: {}
 # installation directory
@@ -116,7 +116,7 @@ node_exporter_checksum: 9413b3c94dbe9d4341ce85ea7e3f0e20abb8804135b8c236c4440c2c
 # installation directory
 node_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/node_exporter"
 # whether service is enabled and started
-node_exporter_service_enabled: yes
+node_exporter_service_enabled: true
 # command-line flags
 node_exporter_flags: {}
 # list of collectors enabled (in addition to default)
@@ -137,7 +137,7 @@ blackbox_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/blackbox_exporter
 # configuration file path
 blackbox_exporter_config_file: "{{ prometheus_exporters_config_dir }}/blackbox_exporter.yml"
 # whether service is enabled and started
-blackbox_exporter_service_enabled: yes
+blackbox_exporter_service_enabled: true
 # additional command-line flags
 blackbox_exporter_flags: {}
 # exporter configuration
@@ -154,7 +154,7 @@ consul_exporter_checksum: a7ee604d6c16fd096fff2f8f8d07da3a66c79b04b9135b8c71f0b9
 # installation directory
 consul_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/consul_exporter"
 # whether service is enabled and started
-consul_exporter_service_enabled: yes
+consul_exporter_service_enabled: true
 # command-line flags
 consul_exporter_flags: {}
 
@@ -168,7 +168,7 @@ mysqld_exporter_checksum: 32797bc96aa00bb20e0b9165f6d3887fe9612b474061ee7de0189f
 # installation directory
 mysqld_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mysqld_exporter"
 # whether service is enabled and started
-mysqld_exporter_service_enabled: yes
+mysqld_exporter_service_enabled: true
 # command-line flags
 mysqld_exporter_flags: {}
 # exporter data source name: https://github.com/prometheus/mysqld_exporter#setting-the-mysql-servers-data-source-name
@@ -186,7 +186,7 @@ elasticsearch_exporter_checksum: ~
 # installation directory
 elasticsearch_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/elasticsearch_exporter"
 # whether service is enabled and started
-elasticsearch_exporter_service_enabled: yes
+elasticsearch_exporter_service_enabled: true
 # command-line flags
 elasticsearch_exporter_flags: {}
 
@@ -202,7 +202,7 @@ mongodb_exporter_checksum: ~
 # installation directory
 mongodb_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mongodb_exporter"
 # whether service is enabled and started
-mongodb_exporter_service_enabled: yes
+mongodb_exporter_service_enabled: true
 # command-line flags
 mongodb_exporter_flags: {}
 
@@ -218,6 +218,6 @@ rabbitmq_exporter_checksum: ~
 # installation directory
 rabbitmq_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/rabbitmq_exporter"
 # whether service is enabled and started
-rabbitmq_exporter_service_enabled: yes
+rabbitmq_exporter_service_enabled: true
 # environment variables passed to service
 rabbitmq_exporter_env_vars: {}
