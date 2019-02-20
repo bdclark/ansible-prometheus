@@ -48,5 +48,5 @@ describe file('/etc/prometheus/rules/test.rules.yml') do
   it { should be_owned_by('root') }
   it { should be_grouped_into('prometheus') }
   its('mode') { should cmp '0644' }
-  its('content') { should contain 'alert: InstanceDown' }
+  its('content') { should match('alert: InstanceDown') }
 end

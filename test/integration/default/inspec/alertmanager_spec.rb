@@ -48,5 +48,5 @@ describe file('/etc/alertmanager/templates/myorg.tmpl') do
   it { should be_owned_by('root') }
   it { should be_grouped_into('prometheus') }
   its('mode') { should cmp '0644' }
-  its('content') { should contain 'slack.myorg.text' }
+  its('content') { should match('slack.myorg.text') }
 end

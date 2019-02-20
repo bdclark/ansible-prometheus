@@ -56,6 +56,13 @@
         name: net-tools
         state: present
 
+    - name: flush handlers before testing
+      meta: flush_handlers
+
+    - name: pause 10 seconds
+      pause:
+        seconds: 10
+
     - name: wait for exporter ports
       wait_for:
         port: "{{ item }}"
