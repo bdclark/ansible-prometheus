@@ -26,9 +26,9 @@ prometheus_exporters_config_dir: /etc/prometheus/exporters
 # PROMETHEUS
 #############################
 # version to install
-prometheus_version: 2.7.1
+prometheus_version: 2.10.0
 # checksum is optional
-prometheus_checksum: 7837cfd6b5af63c07cadfa2b3118f0a43e43e8a6e6d596425cb23b45855b7db0
+prometheus_checksum: f4233783826f18606b79e5cef0686e4a9c2030146a3c7ce134f0add09f5adcb7
 # whether service is enabled and started
 prometheus_service_enabled: true
 # additional command-line flags
@@ -70,9 +70,9 @@ prometheus_config_src: prometheus.yml.j2
 # ALERTMANAGER
 #############################
 # version to install
-alertmanager_version: 0.16.1
+alertmanager_version: 0.17.0
 # checksum is optional
-alertmanager_checksum: 60f37a73f42e2d51e1dba319b75875a1ab5e0bf71944ad4efb735468f7c081c4
+alertmanager_checksum: 7c8d2cfeb021c80881ae9904d959131091b8785b6fda9800f84ddef148fe0a4f
 # whether service is enabled and started
 alertmanager_service_enabled: true
 # additional command-line flags
@@ -110,9 +110,9 @@ alertmanager_config_src: alertmanager.yml.j2
 # NODE_EXPORTER
 #############################
 # version to install
-node_exporter_version: 0.17.0
+node_exporter_version: 0.18.1
 # checksum is optional
-node_exporter_checksum: d2e00d805dbfdc67e7291ce2d2ff151f758dd7401dd993411ff3818d0e231489
+node_exporter_checksum: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
 # installation directory
 node_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/node_exporter"
 # whether service is enabled and started
@@ -129,9 +129,9 @@ node_exporter_collectors_disabled: []
 # BLACKBOX_EXPORTER
 #############################
 # version to install
-blackbox_exporter_version: 0.13.0
+blackbox_exporter_version: 0.14.0
 # checksum is optional
-blackbox_exporter_checksum: 641ebedf12796a04be8f5dc18eeebe64c2332130d1f0f2453f627996a30855ff
+blackbox_exporter_checksum: a2918a059023045cafb911272c88a9eb83cdac9a8a5e8e74844b5d6d27f19117
 # installation directory
 blackbox_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/blackbox_exporter"
 # configuration file path
