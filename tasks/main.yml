@@ -25,6 +25,11 @@
         createhome: false
   when: prometheus_manage_user and prometheus_components | length > 0
 
+- name: install tar
+  package:
+    name: tar
+    state: present
+
 - include_tasks: "{{ component_item }}.yml"
   with_items: "{{ prometheus_components }}"
   loop_control:

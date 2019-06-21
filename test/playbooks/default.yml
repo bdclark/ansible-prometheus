@@ -53,7 +53,9 @@
   tasks:
     - name: install testing dependencies
       package:
-        name: net-tools
+        name:
+          - net-tools
+          - procps
         state: present
 
     - name: flush handlers before testing
