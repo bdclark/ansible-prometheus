@@ -6,7 +6,7 @@
     prometheus_component_version: "{{ consul_exporter_version }}"
     prometheus_component_install_dir: "{{ consul_exporter_bin_dir }}"
     prometheus_component_checksum: "{{ consul_exporter_checksum }}"
-    prometheus_component_service_args: "{% for k, v in consul_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+    prometheus_component_service_args: "{{ consul_exporter_flags }}"
 
 - name: manage consul_exporter service
   service:

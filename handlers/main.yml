@@ -7,70 +7,70 @@
   service:
     name: prometheus
     state: restarted
-  when: prometheus_service_enabled
+  when: prometheus_service_enabled | bool
 
 - name: reload prometheus
   service:
     name: prometheus
     state: reloaded
-  when: prometheus_service_enabled
+  when: prometheus_service_enabled | bool
 
 - name: restart alertmanager
   service:
     name: alertmanager
     state: restarted
-  when: alertmanager_service_enabled
+  when: alertmanager_service_enabled | bool
 
 - name: reload alertmanager
   service:
     name: alertmanager
     state: reloaded
-  when: alertmanager_service_enabled
+  when: alertmanager_service_enabled | bool
 
 - name: restart node_exporter
   service:
     name: node_exporter
     state: restarted
-  when: node_exporter_service_enabled
+  when: node_exporter_service_enabled | bool
 
 - name: reload node_exporter
   service:
     name: node_exporter
     state: reloaded
-  when: node_exporter_service_enabled
+  when: node_exporter_service_enabled | bool
 
 - name: restart consul_exporter
   service:
     name: consul_exporter
     state: restarted
-  when: consul_exporter_service_enabled
+  when: consul_exporter_service_enabled | bool
 
 - name: restart blackbox_exporter
   service:
     name: blackbox_exporter
     state: restarted
-  when: blackbox_exporter_service_enabled
+  when: blackbox_exporter_service_enabled | bool
 
 - name: restart mysqld_exporter
   service:
     name: mysqld_exporter
     state: restarted
-  when: mysqld_exporter_service_enabled
+  when: mysqld_exporter_service_enabled | bool
 
 - name: restart elasticsearch_exporter
   service:
     name: elasticsearch_exporter
     state: restarted
-  when: elasticsearch_exporter_service_enabled
+  when: elasticsearch_exporter_service_enabled | bool
 
 - name: restart mongodb_exporter
   service:
     name: mongodb_exporter
     state: restarted
-  when: mongodb_exporter_service_enabled
+  when: mongodb_exporter_service_enabled | bool
 
 - name: restart rabbitmq_exporter
   service:
     name: rabbitmq_exporter
     state: restarted
-  when: rabbitmq_exporter_service_enabled
+  when: rabbitmq_exporter_service_enabled | bool

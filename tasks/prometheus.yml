@@ -30,7 +30,8 @@
     prometheus_component_checksum: "{{ prometheus_checksum }}"
     prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
     prometheus_component_service_args: >
-      {% for k, v in (prometheus_default_flags | combine(prometheus_flags)).iteritems() %}{{ prometheus_flag_prefix }}{{ k }}={{ v }} {% endfor %}
+      {{ prometheus_default_flags_1x if prometheus_version is version('2.0', '<') else prometheus_default_flags_2x }}
+      {{ prometheus_flags }}
 
 - name: get list of current prometheus rule files
   find:

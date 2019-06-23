@@ -18,18 +18,15 @@ prometheus_rule_file_paths: "{{ prometheus_rule_filenames | map('regex_replace',
 prometheus_flag_prefix: "{{ '-' if prometheus_version is version('2.0', '<') else '--' }}"
 
 # default command-line flags for prometheus 1.x
-prometheus_default_flags_1x:
-  config.file: "{{ prometheus_config_dir}}/prometheus.yml"
-  storage.local.path: "{{ prometheus_data_dir }}"
-  storage.local.target-heap-size: "{{ (ansible_memory_mb.real.total * 1024 * 1024 * 0.5) | round | int }}"
+prometheus_default_flags_1x: >
+  {{ prometheus_flag_prefix }}config.file={{ prometheus_config_dir }}/prometheus.yml
+  {{ prometheus_flag_prefix }}storage.local.path={{ prometheus_data_dir }}
+  {{ prometheus_flag_prefix }}storage.local.target-heap-size={{ (ansible_memory_mb.real.total * 1024 * 1024 * 0.5) | round | int }}
 
 # default command-line flags for prometheus 2.x
-prometheus_default_flags_2x:
-  config.file: "{{ prometheus_config_dir}}/prometheus.yml"
-  storage.tsdb.path: "{{ prometheus_data_dir }}"
-
-# actual version-dependent prometheus command-line flags
-prometheus_default_flags: "{{ prometheus_default_flags_1x if prometheus_version is version('2.0', '<') else prometheus_default_flags_2x }}"
+prometheus_default_flags_2x: >
+  {{ prometheus_flag_prefix }}config.file={{ prometheus_config_dir }}/prometheus.yml
+  {{ prometheus_flag_prefix }}storage.tsdb.path={{ prometheus_data_dir }}
 
 # default prometheus config - global section
 prometheus_default_global_config:
@@ -52,11 +49,6 @@ alertmanager_template_file_paths: "{{ alertmanager_templates | map('regex_replac
 # version-dependent prefix to use on command-line flags
 alertmanager_flag_prefix: "{{ '-' if alertmanager_version is version('0.13.0', '<') else '--' }}"
 
-# default command-line flags for alertmanager
-alertmanager_default_flags:
-  config.file: "{{ alertmanager_config_dir }}/alertmanager.yml"
-  storage.path: "{{ alertmanager_data_dir }}"
-
 # full alertmanager config
 alertmanager_config:
   global: "{{ alertmanager_global_config }}"
@@ -64,10 +56,6 @@ alertmanager_config:
   route: "{{ alertmanager_root_route | combine({'routes': alertmanager_child_routes}, recursive=True) }}"
   receivers: "{{ alertmanager_receivers }}"
   inhibit_rules: "{{ alertmanager_inhibit_rules }}"
-
-# default command-line flags for blackbox exporter
-blackbox_exporter_default_flags:
-  config.file: "{{ blackbox_exporter_config_file }}"
 
 # variables used for component installs
 prometheus_component_release_name: "{{ prometheus_component_name }}-{{ prometheus_component_version }}.{{ prometheus_component_arch | default('linux-amd64') }}"

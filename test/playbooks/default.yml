@@ -2,18 +2,6 @@
 - hosts: all
   become: true
 
-  roles:
-    - role: prometheus
-      prometheus_components:
-        - prometheus
-        - alertmanager
-        - node_exporter
-        - blackbox_exporter
-        - consul_exporter
-        - mysqld_exporter
-        - elasticsearch_exporter
-        - mongodb_exporter
-        - rabbitmq_exporter
   vars:
     # prometheus config
     prometheus_global_config:
@@ -43,12 +31,24 @@
     node_exporter_collectors_disabled:
       - nfs
       - ntp
-    node_exporter_flags:
-      collector.filesystem.ignored-fs-types: '^(sys|proc|auto)fs$'
+    node_exporter_flags: '--collector.filesystem.ignored-fs-types="^(sys|proc|auto)fs$"'
     # additional exporter configs
     rabbitmq_exporter_env_vars:
       PUBLISH_PORT: 9110
     mysqld_exporter_data_source_name: root@localhost:3306/mysql
+
+  roles:
+    - role: prometheus
+      prometheus_components:
+        - prometheus
+        - alertmanager
+        - node_exporter
+        - blackbox_exporter
+        - consul_exporter
+        - mysqld_exporter
+        - elasticsearch_exporter
+        - mongodb_exporter
+        - rabbitmq_exporter
 
   tasks:
     - name: install testing dependencies

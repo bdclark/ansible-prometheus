@@ -9,7 +9,7 @@
     prometheus_component_service_args: >
       {% for c in node_exporter_collectors_enabled %}--collector.{{ c }} {% endfor %}
       {% for c in node_exporter_collectors_disabled %}--no-collector.{{ c }} {% endfor %}
-      {% for k, v in node_exporter_flags.iteritems() %}--{{ k }}='{{ v }}' {% endfor %}
+      {{ node_exporter_flags }}
 
 - name: manage node_exporter service
   service:

@@ -31,8 +31,8 @@ prometheus_version: 2.10.0
 prometheus_checksum: f4233783826f18606b79e5cef0686e4a9c2030146a3c7ce134f0add09f5adcb7
 # whether service is enabled and started
 prometheus_service_enabled: true
-# additional command-line flags
-prometheus_flags: {}
+# string of additional command-line flags (except for config.file and storage.tsdb.path)
+prometheus_flags: ''
 # installation directory
 prometheus_bin_dir: /opt/prometheus
 # prometheus data directory
@@ -75,8 +75,8 @@ alertmanager_version: 0.17.0
 alertmanager_checksum: 7c8d2cfeb021c80881ae9904d959131091b8785b6fda9800f84ddef148fe0a4f
 # whether service is enabled and started
 alertmanager_service_enabled: true
-# additional command-line flags
-alertmanager_flags: {}
+# string of additional command-line flags (except for config.file and storage.path)
+alertmanager_flags: ''
 # installation directory
 alertmanager_bin_dir: /opt/alertmanager
 # configuration directory (for alertmanager.yml)
@@ -117,8 +117,8 @@ node_exporter_checksum: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b
 node_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/node_exporter"
 # whether service is enabled and started
 node_exporter_service_enabled: true
-# command-line flags
-node_exporter_flags: {}
+# string of additional command-line flags (except for collector.* and no-collector.*)
+node_exporter_flags: ''
 # list of collectors enabled (in addition to default)
 node_exporter_collectors_enabled: []
 # list of collectors disabled (in addition to default)
@@ -138,8 +138,8 @@ blackbox_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/blackbox_exporter
 blackbox_exporter_config_file: "{{ prometheus_exporters_config_dir }}/blackbox_exporter.yml"
 # whether service is enabled and started
 blackbox_exporter_service_enabled: true
-# additional command-line flags
-blackbox_exporter_flags: {}
+# string of additional command-line flags (except for config.file)
+blackbox_exporter_flags: ''
 # exporter configuration
 blackbox_exporter_config: {}
 
@@ -155,8 +155,8 @@ consul_exporter_checksum: ff77c03de67cf381f67480b5be6699901785a34145c518c3484ae3
 consul_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/consul_exporter"
 # whether service is enabled and started
 consul_exporter_service_enabled: true
-# command-line flags
-consul_exporter_flags: {}
+# string of command-line flags
+consul_exporter_flags: ''
 
 #############################
 # MYSQLD_EXPORTER
@@ -169,8 +169,8 @@ mysqld_exporter_checksum: b53ad48ff14aa891eb6a959730ffc626db98160d140d9a66377394
 mysqld_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mysqld_exporter"
 # whether service is enabled and started
 mysqld_exporter_service_enabled: true
-# command-line flags
-mysqld_exporter_flags: {}
+# string of command-line flags
+mysqld_exporter_flags: ''
 # exporter data source name: https://github.com/prometheus/mysqld_exporter#setting-the-mysql-servers-data-source-name
 # mysqld_exporter_data_source_name: [username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
 
@@ -187,8 +187,8 @@ elasticsearch_exporter_checksum: ~
 elasticsearch_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/elasticsearch_exporter"
 # whether service is enabled and started
 elasticsearch_exporter_service_enabled: true
-# command-line flags
-elasticsearch_exporter_flags: {}
+# string of command-line flags
+elasticsearch_exporter_flags: ''
 
 #############################
 # MONGODB_EXPORTER (THIRD-PARTY)
@@ -203,8 +203,8 @@ mongodb_exporter_checksum: ~
 mongodb_exporter_bin_dir: "{{ prometheus_exporters_bin_dir }}/mongodb_exporter"
 # whether service is enabled and started
 mongodb_exporter_service_enabled: true
-# command-line flags
-mongodb_exporter_flags: {}
+# string of command-line flags
+mongodb_exporter_flags: ''
 
 #############################
 # RABBITMQ_EXPORTER (THIRD-PARTY)

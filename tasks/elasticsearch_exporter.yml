@@ -7,7 +7,7 @@
     prometheus_component_url: "{{ elasticsearch_exporter_url }}"
     prometheus_component_install_dir: "{{ elasticsearch_exporter_bin_dir }}"
     prometheus_component_checksum: "{{ elasticsearch_exporter_checksum }}"
-    prometheus_component_service_args: "{% for k, v in elasticsearch_exporter_flags.iteritems() %}--{{ k }}=\"{{ v }}\" {% endfor %}"
+    prometheus_component_service_args: "{{ elasticsearch_exporter_flags }}"
 
 - name: manage elasticsearch_exporter service
   service:
