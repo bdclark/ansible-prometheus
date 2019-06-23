@@ -16,9 +16,10 @@ Installs/configures Prometheus and some friends:
 Requirements
 ------------
 This role has been tested with the following versions of Ansible and operating systems:
-- Ansible 2.5, 2.7
+- Ansible 2.6, 2.7, 2.8
 - Ubuntu 16.04, 18.04
 - Centos 7.x
+- Amazon Linux 2
 
 Role Variables
 --------------
@@ -29,9 +30,3 @@ variables used in this role.
 Example Playbook
 ----------------
 See [test/playbooks](test/playbooks) for example usage.
-
-TODO: Add additional usage docs and examples.
-Requirements
-------------
-This role has been tested with the following versions of Ansible and operating systems:
-- Ansible 2.5, 2.7
