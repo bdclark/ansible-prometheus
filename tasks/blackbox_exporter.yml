@@ -6,7 +6,7 @@
     prometheus_component_version: "{{ blackbox_exporter_version }}"
     prometheus_component_install_dir: "{{ blackbox_exporter_bin_dir }}"
     prometheus_component_checksum: "{{ blackbox_exporter_checksum }}"
-    prometheus_component_service_args: >
+    prometheus_component_service_args: >-
       --config.file={{ blackbox_exporter_config_file }}
       {{ blackbox_exporter_flags }}
     prometheus_component_service_capabilities: CAP_NET_RAW

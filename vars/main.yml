@@ -18,13 +18,13 @@ prometheus_rule_file_paths: "{{ prometheus_rule_filenames | map('regex_replace',
 prometheus_flag_prefix: "{{ '-' if prometheus_version is version('2.0', '<') else '--' }}"
 
 # default command-line flags for prometheus 1.x
-prometheus_default_flags_1x: >
+prometheus_default_flags_1x: >-
   {{ prometheus_flag_prefix }}config.file={{ prometheus_config_dir }}/prometheus.yml
   {{ prometheus_flag_prefix }}storage.local.path={{ prometheus_data_dir }}
   {{ prometheus_flag_prefix }}storage.local.target-heap-size={{ (ansible_memory_mb.real.total * 1024 * 1024 * 0.5) | round | int }}
 
 # default command-line flags for prometheus 2.x
-prometheus_default_flags_2x: >
+prometheus_default_flags_2x: >-
   {{ prometheus_flag_prefix }}config.file={{ prometheus_config_dir }}/prometheus.yml
   {{ prometheus_flag_prefix }}storage.tsdb.path={{ prometheus_data_dir }}
 

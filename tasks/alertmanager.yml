@@ -24,7 +24,7 @@
     prometheus_component_version: "{{ alertmanager_version }}"
     prometheus_component_checksum: "{{ alertmanager_checksum }}"
     prometheus_component_install_dir: "{{ alertmanager_bin_dir }}"
-    prometheus_component_service_args: >
+    prometheus_component_service_args: >-
       {{ alertmanager_flag_prefix }}config.file={{ alertmanager_config_dir }}/alertmanager.yml
       {{ alertmanager_flag_prefix }}storage.path={{ alertmanager_data_dir }}
       {{ alertmanager_flags }}

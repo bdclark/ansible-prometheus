@@ -15,6 +15,7 @@
           - targets: ['localhost:9090']
     prometheus_rule_filenames:
       - test.rules.yml
+    prometheus_flags: --log.level=info
     # alertmanager config
     alertmanager_templates:
       - myorg.tmpl
@@ -24,6 +25,7 @@
       - name: ops-team-pager
         pagerduty_configs:
           - service_key: myPagerDutyKey
+    alertmanager_flags: --log.level=info
     # node_exporter config
     node_exporter_collectors_enabled:
       - cpu

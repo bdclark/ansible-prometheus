@@ -29,7 +29,7 @@
     prometheus_component_version: "{{ prometheus_version }}"
     prometheus_component_checksum: "{{ prometheus_checksum }}"
     prometheus_component_install_dir: "{{ prometheus_bin_dir }}"
-    prometheus_component_service_args: >
+    prometheus_component_service_args: >-
       {{ prometheus_default_flags_1x if prometheus_version is version('2.0', '<') else prometheus_default_flags_2x }}
       {{ prometheus_flags }}
 

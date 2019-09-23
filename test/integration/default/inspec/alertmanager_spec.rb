@@ -50,3 +50,13 @@ describe file('/etc/alertmanager/templates/myorg.tmpl') do
   its('mode') { should cmp '0644' }
   its('content') { should match('slack.myorg.text') }
 end
+
+[
+  'config.file=/etc/alertmanager/alertmanager.yml',
+  'storage.path=',
+  'log.level=info',
+].each do |matcher|
+  describe command(%(ps aux | grep '/opt/alertmanager/current/alertmanager .* --#{matcher}')) do
+    its('exit_status') { should eq 0 }
+  end
+end

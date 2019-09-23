@@ -50,3 +50,13 @@ describe file('/etc/prometheus/rules/test.rules.yml') do
   its('mode') { should cmp '0644' }
   its('content') { should match('alert: InstanceDown') }
 end
+
+[
+  'config.file=',
+  'storage.tsdb.path=',
+  'log.level=info',
+].each do |matcher|
+  describe command(%(ps aux | grep -E '\/opt\/prometheus\/current\/prometheus .* --#{matcher}')) do
+    its('exit_status') { should eq 0 }
+  end
+end
